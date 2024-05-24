@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6268109818115454631}
   - component: {fileID: 8897262499031700567}
   - component: {fileID: 667870569383999166}
+  - component: {fileID: -3195716219078213381}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -131,7 +132,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -169,5 +170,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78fd74a0d3e789469d212faca3b4162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  rotateSpeed: 20
+  patrolSpeed: 10
+  chaseSpeed: 5
+  orbitSpeed: 1
+  rotationSpeed: 0.12
+  attackDistance: 3
+  enemyState: 0
+--- !u!114 &-3195716219078213381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6968373355203771060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aaba5feba44aa7429f4370e31df6c7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0

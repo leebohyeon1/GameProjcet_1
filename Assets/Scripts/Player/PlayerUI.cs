@@ -4,14 +4,29 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour
 {
+    private PlayerStats playerStats;
+    private PlayerMovement playerMovement;
+    //==========================================================
 
-    public void HpBarValue(float MaxVal, float CurVal)
+    void Start()
     {
-        UIManager.Instance.HealthBarValue(MaxVal, CurVal);
+        if (playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
+
+        if (playerMovement == null) { playerMovement = GetComponent<PlayerMovement>(); }
     }
 
-    public void StaminaBarValue(float MaxVal, float CurVal)
+    void Update()
     {
-        UIManager.Instance.StaminaBarValue(MaxVal, CurVal);
+        UpdateUI();
+    }
+    //==========================================================
+
+    void UpdateUI()
+    {
+        UIManager.Instance.HealthBarValue(playerStats.maxHealth, playerStats.curHealth);
+
+        UIManager.Instance.StaminaBarValue(playerStats.maxStamina, playerStats.curStamina);
+
+        UIManager.Instance.UpdateLockOnUIPosition(playerMovement.GetLockOnTarget());
     }
 }

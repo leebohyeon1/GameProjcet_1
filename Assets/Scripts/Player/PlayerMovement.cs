@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Camera cam;
     private Rigidbody rb;
     private PlayerStats playerStats;
+    private PlayerInput playerInput;
     //==========================================================
 
     public LayerMask enemyLayer;
@@ -22,30 +23,96 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();     
-        playerStats = GetComponent<PlayerStats>();
-
+        
+        if(rb == null) { rb = GetComponent<Rigidbody>(); }
+        if(playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
+        if(playerInput == null) { playerInput = GetComponent<PlayerInput>(); }
+       
+        //플레이어 회전 잠금
         rb.freezeRotation = true;
         cam = Camera.main;
         enemyLayer = LayerMask.GetMask("Enemy");
     }
 
-    //==========================================================
+    void Update()
+    {
+        UpdateMovement();
+    }
 
+    //==========================================================
+    void UpdateMovement()
+    {
+
+        //구르기 시작
+        if (playerInput.DodgePressed) {StartDodge(playerInput.Horizontal, playerInput.Vertical); }
+
+        //타격
+        if (playerInput.AttackPressed)
+        {
+            Attack();
+        }
+
+        //락온 상대 바라보기
+        if (playerStats.isLockOn && !playerStats.isDodging)
+        {
+            LookLockOnTarget();
+        }
+
+        //락온/오프
+        if (playerInput.LockOnPressed && !playerStats.isLockOn && !playerStats.isDodging)
+        {
+            LockOnToClosestTarget();
+        }
+        else if (playerInput.LockOnPressed && playerStats.isLockOn)
+        {
+            UnlockTarget();
+        }
+
+        //락온 가능 범위 밖으로 벗어나면 락온 해제
+        if (playerStats.isLockOn && PlayerToLockOnTargetDistance() > playerStats.lockOnRange)
+        {
+            UnlockTarget();
+        }
+
+        //마우스 휠로 락온 타겟 변경
+        if (playerStats.isLockOn && playerInput.scroll != 0)
+        {
+            LockOnToNextTarget();
+        }
+
+        //구르기, 움직이기
+        if (playerStats.isDodging)
+        {
+            Dodge();
+        }
+        else
+        {
+            Move(playerInput.Horizontal, playerInput.Vertical);
+        }
+    }
     public void Move(float Horizontal, float Vertical) //앞뒤좌우 움직임
     {
-        float horizontal = Horizontal;
-        float vertical = Vertical;
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        Vector3 direction = new Vector3(Horizontal, 0f, Vertical).normalized;
 
         if (direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg  + cam.transform.eulerAngles.y;
+            Vector3 cameraForward = cam.transform.forward;
+            Vector3 cameraRight = cam.transform.right;
+
+            cameraForward.y = 0f; // 카메라의 수직 성분을 제거
+            cameraRight.y = 0f; // 카메라의 수직 성분을 제거
+
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            Vector3 moveDirection = cameraForward * direction.z + cameraRight * direction.x;
+
+            float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, playerStats.turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            rb.velocity = moveDir.normalized * playerStats.speed;
+            //Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            rb.velocity = moveDirection.normalized * playerStats.speed;
         }
         else
         {
@@ -62,14 +129,22 @@ public class PlayerMovement : MonoBehaviour
             dodgeTimer = playerStats.dodgeDuration;
             playerStats.curStamina -= playerStats.dodgeStaminaCost;
 
-            float horizontal = Horizontal;
-            float vertical = Vertical;
-            dodgeDirection = new Vector3(horizontal, 0f, vertical).normalized;
+            dodgeDirection = new Vector3(Horizontal, 0f, Vertical).normalized;
 
+            Vector3 cameraForward = cam.transform.forward;
+            Vector3 cameraRight = cam.transform.right;
+
+            cameraForward.y = 0f; // 카메라의 수직 성분을 제거
+            cameraRight.y = 0f; // 카메라의 수직 성분을 제거
+
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            Vector3 DodgeDirection = cameraForward * dodgeDirection.z + cameraRight * dodgeDirection.x;
 
             if (dodgeDirection.magnitude >= 0.1f)
             {
-                float targetAngle = Mathf.Atan2(dodgeDirection.x, dodgeDirection.z) * Mathf.Rad2Deg + cam.transform.eulerAngles.y;
+                float targetAngle = Mathf.Atan2(DodgeDirection.x, DodgeDirection.z) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
                 dodgeDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             }
@@ -183,6 +258,11 @@ public class PlayerMovement : MonoBehaviour
         lockOnTarget = null;
         playerStats.isLockOn = !playerStats.isLockOn;
     }
+
+    public Transform GetLockOnTarget()
+    {
+        return lockOnTarget;
+    }
     #endregion
 
     public void Attack()
@@ -200,11 +280,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
-    {
-        playerStats.curHealth -= damage;
-        
-    }
+   
 
     //==========================================================
 

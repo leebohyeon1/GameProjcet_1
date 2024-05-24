@@ -9,10 +9,14 @@ public class PlayerInput : MonoBehaviour
     public float scroll { get; private set; }
     public bool LockOnPressed { get; private set; }
     public bool DodgePressed { get; private set; }
-    public bool AttackPressed { get; private set; }   
+    public bool AttackPressed { get; private set; }
     //==========================================================
+    private void Update()
+    {
+        InputKey();
+    }
 
-    void Update()
+    void InputKey()
     {
         Horizontal = Input.GetAxisRaw("Horizontal");
         Vertical = Input.GetAxisRaw("Vertical");

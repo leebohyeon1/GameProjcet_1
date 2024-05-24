@@ -1,18 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static PlayerStats;
-
-public enum PlayerState
-{
-    Nomal,
-    Die
-}
 
 public class PlayerStats : MonoBehaviour
 {
-    
-
     [Header("체력")]
     public float maxHealth = 100f; //최대 체력
     [SerializeField]
@@ -105,7 +96,13 @@ public class PlayerStats : MonoBehaviour
         isLockOn = false;
     }
 
-    private void OnDrawGizmos()
+    void Update()
+    {
+        AutoRecoverStamina();
+        AutoRecoverHp();
+    }
+
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, lockOnRange);
@@ -118,6 +115,12 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         playerState = PlayerState.Die;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        curHealth -= damage;
+
     }
 
     public void AutoRecoverStamina()

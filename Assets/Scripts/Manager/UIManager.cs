@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
     }
     //==========================================================
 
+    #region PlayerUI
     public void ShowLockOnUI(Transform target)
     {
         lockOnUI.Show(target);
@@ -42,6 +43,11 @@ public class UIManager : MonoBehaviour
     public void HideLockOnUI()
     {
         lockOnUI.Hide();
+    }
+
+    public void UpdateLockOnUIPosition(Transform target)
+    {
+        lockOnUI.UpdatePosition(target);
     }
 
     public void HealthBarValue(float MaxVal, float CurVal)
@@ -53,4 +59,5 @@ public class UIManager : MonoBehaviour
     {
         staminaBarUI.StaminaValue(MaxVal, CurVal);
     }
+    #endregion
 }

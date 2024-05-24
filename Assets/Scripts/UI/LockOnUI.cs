@@ -17,13 +17,6 @@ public class LockOnUI : MonoBehaviour
         lockOnIndicator.enabled = false;
     }
 
-    private void Update()
-    {
-        if (lockOnIndicator.enabled && currentTarget != null)
-        {
-            UpdatePosition(currentTarget);
-        }
-    }
     //==========================================================
 
     public void Show(Transform target)
@@ -41,7 +34,10 @@ public class LockOnUI : MonoBehaviour
 
     public void UpdatePosition(Transform target)
     {
-        Vector3 screenPosition = playerCamera.WorldToScreenPoint(target.position);
-        lockOnIndicator.transform.position = screenPosition;
+        if (lockOnIndicator.enabled && currentTarget != null)
+        {
+            Vector3 screenPosition = playerCamera.WorldToScreenPoint(target.position);
+            lockOnIndicator.transform.position = screenPosition;
+        }
     }
 }
