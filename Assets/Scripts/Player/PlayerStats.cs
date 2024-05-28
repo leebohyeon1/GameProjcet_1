@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour, IListener
 {
     [Header("체력")]
     public float maxHealth = 100f; //최대 체력
@@ -17,6 +17,7 @@ public class PlayerStats : MonoBehaviour
         set
         {
             currentHealth = value;
+            EventManager.Instance.PostNotification(EVENT_TYPE.HEALTH_CHANGE,this,currentHealth);
             if (currentHealth <= 0)
             {
                 currentHealth = 0f;
@@ -85,6 +86,8 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
+        EventManager.Instance.AddListener(EVENT_TYPE.HEALTH_CHANGE, this);
+
         currentHealth = maxHealth;
         currentStamina = maxStamina;
 
@@ -109,6 +112,19 @@ public class PlayerStats : MonoBehaviour
 
         Gizmos.color = Color.red;
 
+    }
+
+    public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
+    {
+        switch (Event_Type)
+        {
+            case EVENT_TYPE.HEALTH_CHANGE:
+                if((float)Param < 50)
+                {
+                    Die();
+                }
+                break;
+        }
     }
     //==========================================================
 
