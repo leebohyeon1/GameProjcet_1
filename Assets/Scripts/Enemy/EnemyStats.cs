@@ -9,6 +9,8 @@ public class EnemyStats : MonoBehaviour
         Aggressive, // 저돌적인 성격
         Cold        // 냉철한 성격
     }
+    //=========================================================
+
     public EnemyType enemyType;
 
     [Header("이동")]
@@ -31,6 +33,8 @@ public class EnemyStats : MonoBehaviour
         enemyState = EnemyState.Chase;
         Speed = enemyType.Speed;
         SetEnemy();
+
+      
     }
 
     void OnEnable()

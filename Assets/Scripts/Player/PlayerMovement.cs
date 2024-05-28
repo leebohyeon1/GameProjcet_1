@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private PlayerStats playerStats;
     private PlayerInput playerInput;
+    private Animator animator;
     //==========================================================
 
     public LayerMask enemyLayer;
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
         if(rb == null) { rb = GetComponent<Rigidbody>(); }
         if(playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
         if(playerInput == null) { playerInput = GetComponent<PlayerInput>(); }
+        if(animator == null) { animator = transform.GetChild(0).GetComponent<Animator>(); }
        
         //플레이어 회전 잠금
         rb.freezeRotation = true;
@@ -36,7 +38,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        UpdateMovement();
+        if (playerStats.playerState != PlayerState.Die) { UpdateMovement(); }
+
     }
 
     //==========================================================
@@ -85,9 +88,15 @@ public class PlayerMovement : MonoBehaviour
         {
             Dodge();
         }
-        else
+        
+        if(!playerStats.isDodging && !playerStats.isAttacking)
         {
             Move(playerInput.Horizontal, playerInput.Vertical);
+        }
+
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            playerStats.TakeDamage(10);
         }
     }
     public void Move(float Horizontal, float Vertical) //앞뒤좌우 움직임
@@ -96,33 +105,73 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction.magnitude >= 0.1f)
         {
-            Vector3 cameraForward = cam.transform.forward;
-            Vector3 cameraRight = cam.transform.right;
+            animator.SetBool("isMove", true);
+            //Vector3 cameraForward = cam.transform.forward;
+            //Vector3 cameraRight = cam.transform.right;
 
-            cameraForward.y = 0f; // 카메라의 수직 성분을 제거
-            cameraRight.y = 0f; // 카메라의 수직 성분을 제거
+            //cameraForward.y = 0f; // 카메라의 수직 성분을 제거
+            //cameraRight.y = 0f; // 카메라의 수직 성분을 제거
 
-            cameraForward.Normalize();
-            cameraRight.Normalize();
+            //cameraForward.Normalize();
+            //cameraRight.Normalize();
 
-            Vector3 moveDirection = cameraForward * direction.z + cameraRight * direction.x;
-
-            float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
+            //Vector3 moveDirection = cameraForward * direction.z + cameraRight * direction.x;
+           
+            Animate(Horizontal, Vertical);
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, playerStats.turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            //Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             rb.velocity = moveDirection.normalized * playerStats.speed;
+
         }
         else
         {
+            animator.SetBool("isMove", false);
             rb.velocity = Vector3.zero;
         }
     }
+    void Animate(float horizontal, float vertical)
+    {
+        // Create a direction vector based on input
+        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
+        if (direction.magnitude >= 0.1f)
+        {
+            // Convert world direction to local direction
+            Vector3 localDirection = transform.InverseTransformDirection(direction);
+
+            float forward = localDirection.z;
+            float strafe = localDirection.x;
+
+            // Determine the animation parameters based on local direction
+            float animVertical = 0;
+            float animHorizontal = 0;
+
+            if (Mathf.Abs(localDirection.z) >= 0.2f)
+            {
+                animVertical = localDirection.z > 0 ? localDirection.z : -localDirection.z;
+            }
+            if (Mathf.Abs(localDirection.x) >= 0.2f)
+            {
+                animHorizontal = localDirection.x > 0 ? localDirection.x : -localDirection.x;
+            }
+
+            // Set animator parameters
+            animator.SetFloat("x", animHorizontal);
+            animator.SetFloat("z", animVertical);
+        }
+        else
+        {
+            animator.SetFloat("x", 0);
+            animator.SetFloat("z", 0);
+        }
+    }
     #region Dodge
     public void StartDodge(float Horizontal, float Vertical) //구르기 시작
     {
+        animator.SetTrigger("Roll");
         if (playerStats.curStamina > playerStats.dodgeStaminaCost )
         {
             playerStats.isDodging = true;
@@ -131,20 +180,20 @@ public class PlayerMovement : MonoBehaviour
 
             dodgeDirection = new Vector3(Horizontal, 0f, Vertical).normalized;
 
-            Vector3 cameraForward = cam.transform.forward;
-            Vector3 cameraRight = cam.transform.right;
+            //Vector3 cameraForward = cam.transform.forward;
+            //Vector3 cameraRight = cam.transform.right;
 
-            cameraForward.y = 0f; // 카메라의 수직 성분을 제거
-            cameraRight.y = 0f; // 카메라의 수직 성분을 제거
+            //cameraForward.y = 0f; // 카메라의 수직 성분을 제거
+            //cameraRight.y = 0f; // 카메라의 수직 성분을 제거
 
-            cameraForward.Normalize();
-            cameraRight.Normalize();
+            //cameraForward.Normalize();
+            //cameraRight.Normalize();
 
-            Vector3 DodgeDirection = cameraForward * dodgeDirection.z + cameraRight * dodgeDirection.x;
+            //Vector3 DodgeDirection = cameraForward * dodgeDirection.z + cameraRight * dodgeDirection.x;
 
-            if (dodgeDirection.magnitude >= 0.1f)
+            if (dodgeDirection.magnitude >= 0.01f)
             {
-                float targetAngle = Mathf.Atan2(DodgeDirection.x, DodgeDirection.z) * Mathf.Rad2Deg;
+                float targetAngle = Mathf.Atan2(dodgeDirection.x, dodgeDirection.z) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
                 dodgeDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             }
@@ -270,7 +319,8 @@ public class PlayerMovement : MonoBehaviour
         if (playerStats.curStamina > playerStats.attackStaminaCost)
         {
             playerStats.curStamina -= playerStats.attackStaminaCost;
-
+            animator.SetTrigger("Slash");
+            //playerStats.isAttacking = true;
             //Collider[] hitEnemies = Physics.OverlapBox(playerStats.AttackPos.position, playerStats.attackRange, Quaternion.identity, enemyLayer);
             //foreach (Collider enemy in hitEnemies)
             //{
@@ -279,6 +329,11 @@ public class PlayerMovement : MonoBehaviour
             //}
         }
     }
+    public void EndAttack()
+    {
+        playerStats.isAttacking =false;
+    }
+
 
    
 

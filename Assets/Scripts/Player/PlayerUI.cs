@@ -17,16 +17,20 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
+       
         UpdateUI();
     }
     //==========================================================
 
     void UpdateUI()
     {
-        UIManager.Instance.HealthBarValue(playerStats.maxHealth, playerStats.curHealth);
+        if (playerStats.playerState != PlayerState.Die)
+        {
+            UIManager.Instance.HealthBarValue(playerStats.maxHealth, playerStats.curHealth);
 
-        UIManager.Instance.StaminaBarValue(playerStats.maxStamina, playerStats.curStamina);
-
+            UIManager.Instance.StaminaBarValue(playerStats.maxStamina, playerStats.curStamina);
+        }
+       
         UIManager.Instance.UpdateLockOnUIPosition(playerMovement.GetLockOnTarget());
     }
 }
