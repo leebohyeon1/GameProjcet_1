@@ -1,53 +1,73 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
-{   
-    private Camera cam;
+{
     private Rigidbody rb;
     private PlayerStats playerStats;
     private PlayerInput playerInput;
     private Animator animator;
     //==========================================================
-
+    public bool ikActive = false;
     public LayerMask enemyLayer;
     [SerializeField] private Transform lockOnTarget;
     private float turnSmoothVelocity;
     private float dodgeTimer;
+    [SerializeField]
     Vector3 dodgeDirection;
     //==========================================================
 
     void Start()
-    {
-        
+    {     
         if(rb == null) { rb = GetComponent<Rigidbody>(); }
         if(playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
         if(playerInput == null) { playerInput = GetComponent<PlayerInput>(); }
         if(animator == null) { animator = transform.GetChild(0).GetComponent<Animator>(); }
-       
+
         //플레이어 회전 잠금
         rb.freezeRotation = true;
-        cam = Camera.main;
         enemyLayer = LayerMask.GetMask("Enemy");
     }
 
     void Update()
     {
         if (playerStats.playerState != PlayerState.Die) { UpdateMovement(); }
-
     }
 
+    void OnAnimatorIK(int layerIndex)
+    {
+        if (animator)
+        {
+            if (ikActive)
+            {
+                //playerStats.WeaponPivot.position = animator.GetIKHintPosition(AvatarIKHint.RightElbow);
+
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
+                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
+
+                animator.SetIKPosition(AvatarIKGoal.RightHand, playerStats.WeaponPivot.position);
+                animator.SetIKRotation(AvatarIKGoal.RightHand, playerStats.WeaponPivot.rotation);
+            }
+        }
+    }
     //==========================================================
+
     void UpdateMovement()
     {
 
         //구르기 시작
-        if (playerInput.DodgePressed) {StartDodge(playerInput.Horizontal, playerInput.Vertical); }
+        if (playerInput.DodgePressed && !playerStats.isDodging) 
+        {
+            StartDodge(playerInput.Horizontal, playerInput.Vertical); 
+        }
+
+        if (playerStats.isDodging)
+        {
+            Dodge();
+            return;
+        }
 
         //타격
         if (playerInput.AttackPressed)
@@ -83,12 +103,7 @@ public class PlayerMovement : MonoBehaviour
             LockOnToNextTarget();
         }
 
-        //구르기, 움직이기
-        if (playerStats.isDodging)
-        {
-            Dodge();
-        }
-        
+        //구르기, 움직이기       
         if(!playerStats.isDodging && !playerStats.isAttacking)
         {
             Move(playerInput.Horizontal, playerInput.Vertical);
@@ -99,28 +114,22 @@ public class PlayerMovement : MonoBehaviour
             playerStats.TakeDamage(10);
         }
     }
+
     public void Move(float Horizontal, float Vertical) //앞뒤좌우 움직임
     {
         Vector3 direction = new Vector3(Horizontal, 0f, Vertical).normalized;
 
-        if (direction.magnitude >= 0.1f)
+        if (direction.magnitude > 0f)
         {
             animator.SetBool("isMove", true);
-            //Vector3 cameraForward = cam.transform.forward;
-            //Vector3 cameraRight = cam.transform.right;
-
-            //cameraForward.y = 0f; // 카메라의 수직 성분을 제거
-            //cameraRight.y = 0f; // 카메라의 수직 성분을 제거
-
-            //cameraForward.Normalize();
-            //cameraRight.Normalize();
-
-            //Vector3 moveDirection = cameraForward * direction.z + cameraRight * direction.x;
-           
-            Animate(Horizontal, Vertical);
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, playerStats.turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            Animate(Horizontal, Vertical);
+
+            if (!playerStats.isLockOn)
+            {
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, playerStats.turnSmoothTime);
+                rb.rotation = Quaternion.Euler(0f, angle, 0f);
+            }
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             rb.velocity = moveDirection.normalized * playerStats.speed;
@@ -132,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
     }
+
     void Animate(float horizontal, float vertical)
     {
         // Create a direction vector based on input
@@ -168,33 +178,25 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("z", 0);
         }
     }
+
     #region Dodge
     public void StartDodge(float Horizontal, float Vertical) //구르기 시작
-    {
-        animator.SetTrigger("Roll");
+    {     
         if (playerStats.curStamina > playerStats.dodgeStaminaCost )
         {
+            
+            animator.SetTrigger("Roll");
             playerStats.isDodging = true;
             dodgeTimer = playerStats.dodgeDuration;
             playerStats.curStamina -= playerStats.dodgeStaminaCost;
 
             dodgeDirection = new Vector3(Horizontal, 0f, Vertical).normalized;
 
-            //Vector3 cameraForward = cam.transform.forward;
-            //Vector3 cameraRight = cam.transform.right;
-
-            //cameraForward.y = 0f; // 카메라의 수직 성분을 제거
-            //cameraRight.y = 0f; // 카메라의 수직 성분을 제거
-
-            //cameraForward.Normalize();
-            //cameraRight.Normalize();
-
-            //Vector3 DodgeDirection = cameraForward * dodgeDirection.z + cameraRight * dodgeDirection.x;
-
-            if (dodgeDirection.magnitude >= 0.01f)
-            {
-                float targetAngle = Mathf.Atan2(dodgeDirection.x, dodgeDirection.z) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            if (dodgeDirection.magnitude > 0f)
+            {             
+                float targetAngle = Mathf.Atan2(dodgeDirection.x, dodgeDirection.z) * Mathf.Rad2Deg;            
+                 rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+                
                 dodgeDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             }
             else
@@ -207,11 +209,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Dodge() //구르기 중(playerStats.dodgeDuration 동안 일정한 속도로 구르기를 함);
     {
-        if (!playerStats.isDodging)
-        {
-            return;
-        }
-
         dodgeTimer -= Time.deltaTime;
         if (dodgeTimer <= 0f)
         {
@@ -220,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        rb.velocity = dodgeDirection.normalized * playerStats.dodgeSpeed;
+        rb.velocity = dodgeDirection * playerStats.dodgeSpeed;
     }
     #endregion
 
@@ -286,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 directionToTarget = (lockOnTarget.position - transform.position).normalized;
         float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+        rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
     }
 
     public float PlayerToLockOnTargetDistance()
@@ -320,7 +317,7 @@ public class PlayerMovement : MonoBehaviour
         {
             playerStats.curStamina -= playerStats.attackStaminaCost;
             animator.SetTrigger("Slash");
-            //playerStats.isAttacking = true;
+            playerStats.isAttacking = true;
             //Collider[] hitEnemies = Physics.OverlapBox(playerStats.AttackPos.position, playerStats.attackRange, Quaternion.identity, enemyLayer);
             //foreach (Collider enemy in hitEnemies)
             //{
@@ -333,10 +330,6 @@ public class PlayerMovement : MonoBehaviour
     {
         playerStats.isAttacking =false;
     }
-
-
-   
-
     //==========================================================
 
 }

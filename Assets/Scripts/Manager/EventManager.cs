@@ -7,8 +7,8 @@ public enum EVENT_TYPE
 {
     GAME_INIT,
     GAME_END,
-    AMMO_CHANGE,
     HEALTH_CHANGE,
+    PLAYER_INPUT,
     DEAD
 };
 public interface IListener
@@ -21,6 +21,7 @@ public class EventManager : MonoBehaviour
     public static EventManager Instance { get; private set; }
     //=========================================================
 
+    public delegate void OnEvent(EVENT_TYPE Event_, Component Sender, object Param = null);
     private Dictionary<EVENT_TYPE, List<IListener>> Listeners =
         new Dictionary<EVENT_TYPE, List<IListener>>();
     //=========================================================

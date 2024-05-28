@@ -10,7 +10,9 @@ public class PlayerInput : MonoBehaviour
     public bool LockOnPressed { get; private set; }
     public bool DodgePressed { get; private set; }
     public bool AttackPressed { get; private set; }
+
     //==========================================================
+
     private void Update()
     {
         InputKey();

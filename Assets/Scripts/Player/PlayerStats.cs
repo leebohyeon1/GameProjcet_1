@@ -62,9 +62,9 @@ public class PlayerStats : MonoBehaviour, IListener
     public float dodgeSpeed = 12f; //구르기 속도
     public float dodgeDuration = 0.2f; //구르기 시간
 
-    //[Header("공격")]
-    //public Transform AttackPos; 
-    //public float attackRange;
+    [Header("공격")]
+    public Transform WeaponPivot;
+
 
     [Header("락 온")]
     public float measuringAngle = 45f; //플레이어 정면에서 락온 인식 각도
