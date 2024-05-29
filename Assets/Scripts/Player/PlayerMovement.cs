@@ -317,7 +317,7 @@ public class PlayerMovement : MonoBehaviour
         {
             playerStats.curStamina -= playerStats.attackStaminaCost;
             animator.SetTrigger("Slash");
-            playerStats.isAttacking = true;
+
             //Collider[] hitEnemies = Physics.OverlapBox(playerStats.AttackPos.position, playerStats.attackRange, Quaternion.identity, enemyLayer);
             //foreach (Collider enemy in hitEnemies)
             //{
@@ -326,9 +326,15 @@ public class PlayerMovement : MonoBehaviour
             //}
         }
     }
+    public void CheckAttack()
+    {
+        playerStats.isAttacking = true;
+        playerStats.WeaponPivot.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = true;
+    }
     public void EndAttack()
     {
-        playerStats.isAttacking =false;
+        playerStats.isAttacking = false;
+        playerStats.WeaponPivot.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = false;
     }
     //==========================================================
 
