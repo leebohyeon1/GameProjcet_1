@@ -15,4 +15,9 @@ public class AnimEvent : MonoBehaviour
     {
         playerMovement.EndAttack();
     }
+
+    void CheckAttack()
+    {
+        playerMovement.CheckAttack();
+    }
 }
