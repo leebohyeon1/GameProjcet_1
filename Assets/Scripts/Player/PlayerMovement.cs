@@ -15,8 +15,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform lockOnTarget;
     private float turnSmoothVelocity;
     private float dodgeTimer;
-    [SerializeField]
+    //[SerializeField]
+    //private bool isAttackReady;
     Vector3 dodgeDirection;
+    int hasgAttackCount = Animator.StringToHash("AttackCount");
+    public int AttackCount
+    {
+        get => animator.GetInteger(hasgAttackCount);
+        set => animator.SetInteger(hasgAttackCount, value);
+    }
+
+
     //==========================================================
 
     void Start()
@@ -28,29 +37,15 @@ public class PlayerMovement : MonoBehaviour
 
         //플레이어 회전 잠금
         rb.freezeRotation = true;
+        //isAttackReady = false;
+        //attackIndex = 0;
         enemyLayer = LayerMask.GetMask("Enemy");
     }
 
     void Update()
     {
         if (playerStats.playerState != PlayerState.Die) { UpdateMovement(); }
-    }
-
-    void OnAnimatorIK(int layerIndex)
-    {
-        if (animator)
-        {
-            if (ikActive)
-            {
-                //playerStats.WeaponPivot.position = animator.GetIKHintPosition(AvatarIKHint.RightElbow);
-
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
-
-                animator.SetIKPosition(AvatarIKGoal.RightHand, playerStats.WeaponPivot.position);
-                animator.SetIKRotation(AvatarIKGoal.RightHand, playerStats.WeaponPivot.rotation);
-            }
-        }
+       
     }
     //==========================================================
 
@@ -58,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         //구르기 시작
-        if (playerInput.DodgePressed && !playerStats.isDodging) 
+        if (playerInput.DodgePressed && !playerStats.isDodging && !playerStats.isAttack) 
         {
             StartDodge(playerInput.Horizontal, playerInput.Vertical); 
         }
@@ -70,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //타격
-        if (playerInput.AttackPressed)
+        if (playerInput.AttackPressed && !playerStats.isAttackScan)
         {
             Attack();
         }
@@ -104,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //구르기, 움직이기       
-        if(!playerStats.isDodging && !playerStats.isAttacking)
+        if(!playerStats.isDodging && !playerStats.isAttack)
         {
             Move(playerInput.Horizontal, playerInput.Vertical);
         }
@@ -186,6 +181,8 @@ public class PlayerMovement : MonoBehaviour
         {
             
             animator.SetTrigger("Roll");
+            //isAttackReady = false;
+            EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT,this,true);
             playerStats.isDodging = true;
             dodgeTimer = playerStats.dodgeDuration;
             playerStats.curStamina -= playerStats.dodgeStaminaCost;
@@ -212,7 +209,8 @@ public class PlayerMovement : MonoBehaviour
         dodgeTimer -= Time.deltaTime;
         if (dodgeTimer <= 0f)
         {
-             playerStats.isDodging = false;
+            EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
+            playerStats.isDodging = false;
             rb.velocity = Vector3.zero;
             return;
         }
@@ -293,7 +291,7 @@ public class PlayerMovement : MonoBehaviour
 
     void LockOnToTarget(Transform target)
     {
-        lockOnTarget = target;
+        lockOnTarget = target.GetChild(0);
         UIManager.Instance.ShowLockOnUI(target);
         playerStats.isLockOn = true;
     }
@@ -311,31 +309,50 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
+    #region Attack
+
     public void Attack()
     {
         if (playerStats.curStamina > playerStats.attackStaminaCost)
         {
-            playerStats.curStamina -= playerStats.attackStaminaCost;
-            animator.SetTrigger("Slash");
-
-            //Collider[] hitEnemies = Physics.OverlapBox(playerStats.AttackPos.position, playerStats.attackRange, Quaternion.identity, enemyLayer);
-            //foreach (Collider enemy in hitEnemies)
-            //{
-            //    Debug.Log("attack to: "+ enemy.name);
-            //    //enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
-            //}
+            Debug.Log("공격");
+            rb.velocity = Vector3.zero;
+            //isAttackReady = true;
+           // playerStats.isAttack = true;
+            //attackIndex++;
+            AttackCount = 0;
+            animator.SetTrigger("Attack");
         }
     }
     public void CheckAttack()
     {
-        playerStats.isAttacking = true;
-        playerStats.WeaponPivot.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = true;
+        //EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
+        playerStats.curStamina -= playerStats.attackStaminaCost;
+        //playerStats.isAttackScan = true;
+        playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = true;
+        playerStats.Weapon.GetComponent<BoxCollider>().enabled = true;
     }
-    public void EndAttack()
+    public void EndCheckAttack()
     {
-        playerStats.isAttacking = false;
-        playerStats.WeaponPivot.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = false;
+        //playerStats.isAttackScan = false;
+        playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = false;
+        playerStats.Weapon.GetComponent<BoxCollider>().enabled = false;
+        //isAttackReady = false;
+        //attackIndex = 0;
+        //animator.SetInteger("AttackIndex", attackIndex);
     }
-    //==========================================================
+        //public void EndAttack()
+        //{
+        //    if (!playerStats.isAttackScan)
+        //    {
+        //        Debug.Log("공격 끝");
+        //        playerStats.isAttack = false;
+        //        EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
+        //    }
+        //}
+        #endregion
 
-}
+
+        //==========================================================
+
+    }

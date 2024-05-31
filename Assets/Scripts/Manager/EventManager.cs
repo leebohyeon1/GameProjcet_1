@@ -9,6 +9,8 @@ public enum EVENT_TYPE
     GAME_END,
     HEALTH_CHANGE,
     PLAYER_INPUT,
+    SHAKE_CAMERA,
+    PLAYER_ACT,
     DEAD
 };
 public interface IListener

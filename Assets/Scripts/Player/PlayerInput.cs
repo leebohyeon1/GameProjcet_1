@@ -25,6 +25,6 @@ public class PlayerInput : MonoBehaviour
         scroll = Input.GetAxis("Mouse ScrollWheel");
         LockOnPressed = Input.GetKeyDown(KeyCode.LeftControl);
         DodgePressed = Input.GetKeyDown(KeyCode.Space);
-        AttackPressed = Input.GetMouseButtonDown(0);
+        AttackPressed = Input.GetKeyDown(KeyCode.D);
     }
 }

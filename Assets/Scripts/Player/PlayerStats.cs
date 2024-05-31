@@ -17,7 +17,6 @@ public class PlayerStats : MonoBehaviour, IListener
         set
         {
             currentHealth = value;
-            EventManager.Instance.PostNotification(EVENT_TYPE.HEALTH_CHANGE,this,currentHealth);
             if (currentHealth <= 0)
             {
                 currentHealth = 0f;
@@ -25,8 +24,8 @@ public class PlayerStats : MonoBehaviour, IListener
             }
         }
     }
-    public float hpRecoveryTime = 0.05f; //체력 회복 주기
-    public float hpRecoveryValue = 0.1f; //체력 회복 주기별 값
+    public float hpRecoveryTime = 0.07f; //체력 회복 주기
+    public float hpRecoveryValue = 0.07f; //체력 회복 주기별 값
 
     [Header("스테미나")]
     public float maxStamina = 100; //최대 스태미나
@@ -48,22 +47,22 @@ public class PlayerStats : MonoBehaviour, IListener
         }
     }
     public float staminaRecoveryTime = 0.05f; //스테미나 회복 주기
-    public float staminaRecoveryValue = 0.5f; //스테미나 회복 주기별 값
+    public float staminaRecoveryValue = 0.2f; //스테미나 회복 주기별 값
 
     [Header("스테미나 사용량")]
     public float attackStaminaCost = 15f; //공격 시 스테미나 소모량
     public float dodgeStaminaCost = 10f; //구르기 시 스테미나 소모량
 
     [Header("이동 속도")]
-    public float speed = 6f; //이동 속도
-    public float turnSmoothTime = 0.1f; //회전 시간 (값이 낮을수록 회전을 빨리 함)
+    public float speed = 12f; //이동 속도
+    public float turnSmoothTime = 0.01f; //회전 시간 (값이 낮을수록 회전을 빨리 함)
 
     [Header("구르기")]
-    public float dodgeSpeed = 12f; //구르기 속도
-    public float dodgeDuration = 0.2f; //구르기 시간
+    public float dodgeSpeed = 17f; //구르기 속도
+    public float dodgeDuration = 0.5f; //구르기 시간
 
     [Header("공격")]
-    public Transform WeaponPivot;
+    public Transform Weapon;
 
 
     [Header("락 온")]
@@ -75,9 +74,11 @@ public class PlayerStats : MonoBehaviour, IListener
     [Header("현재 상태")]
     public PlayerState playerState;
     public bool isDodging;
-    public bool isAttacking;
+    public bool isAttackScan;
+    public bool isAttack;
     public bool isBlocking;
     public bool isLockOn;
+    public bool isStaminaRecovery;
     //==========================================================
 
     private float staminaTimer;
@@ -86,22 +87,26 @@ public class PlayerStats : MonoBehaviour, IListener
 
     void Start()
     {
-        EventManager.Instance.AddListener(EVENT_TYPE.HEALTH_CHANGE, this);
-
+        EventManager.Instance.AddListener(EVENT_TYPE.PLAYER_ACT, this);
         currentHealth = maxHealth;
         currentStamina = maxStamina;
 
         playerState = PlayerState.Nomal;
 
+        isStaminaRecovery = true;
         isDodging = false;
-        isAttacking = false;
+        isAttackScan = false;
+        isAttack = false;
         isBlocking = false;
         isLockOn = false;
     }
 
     void Update()
     {
-        AutoRecoverStamina();
+        if(isStaminaRecovery)
+        {
+            AutoRecoverStamina();
+        } 
         AutoRecoverHp();
     }
 
@@ -116,15 +121,7 @@ public class PlayerStats : MonoBehaviour, IListener
 
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
-        switch (Event_Type)
-        {
-            case EVENT_TYPE.HEALTH_CHANGE:
-                if((float)Param < 50)
-                {
-                    Die();
-                }
-                break;
-        }
+        isStaminaRecovery = !(bool)Param;
     }
     //==========================================================
 

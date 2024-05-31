@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimEvent : MonoBehaviour
+public class PlayerAnimEvent : MonoBehaviour
 {
     PlayerMovement playerMovement;
 
@@ -10,14 +10,22 @@ public class AnimEvent : MonoBehaviour
     {
         playerMovement = transform.parent.GetComponent<PlayerMovement>();
     }
-
-    void EndAttack()
+    //void StartAttack()
+    //{
+    //    //playerMovement.StartAttack();
+    //}
+    void EndCheckAttack()
     {
-        playerMovement.EndAttack();
+        playerMovement.EndCheckAttack();
     }
 
     void CheckAttack()
     {
         playerMovement.CheckAttack();
     }
+
+    //void EndAttack()
+    //{
+    //    playerMovement.EndAttack();
+    //}
 }
