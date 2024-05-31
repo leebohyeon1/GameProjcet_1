@@ -10,22 +10,19 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerInput;
     private Animator animator;
     //==========================================================
-    public bool ikActive = false;
     public LayerMask enemyLayer;
     [SerializeField] private Transform lockOnTarget;
     private float turnSmoothVelocity;
+
     private float dodgeTimer;
-    //[SerializeField]
-    //private bool isAttackReady;
     Vector3 dodgeDirection;
+
     int hasgAttackCount = Animator.StringToHash("AttackCount");
     public int AttackCount
     {
         get => animator.GetInteger(hasgAttackCount);
         set => animator.SetInteger(hasgAttackCount, value);
     }
-
-
     //==========================================================
 
     void Start()
@@ -317,9 +314,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("공격");
             rb.velocity = Vector3.zero;
-            //isAttackReady = true;
-           // playerStats.isAttack = true;
-            //attackIndex++;
             AttackCount = 0;
             animator.SetTrigger("Attack");
         }
@@ -328,31 +322,17 @@ public class PlayerMovement : MonoBehaviour
     {
         //EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
         playerStats.curStamina -= playerStats.attackStaminaCost;
-        //playerStats.isAttackScan = true;
         playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = true;
         playerStats.Weapon.GetComponent<BoxCollider>().enabled = true;
     }
     public void EndCheckAttack()
     {
-        //playerStats.isAttackScan = false;
         playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = false;
         playerStats.Weapon.GetComponent<BoxCollider>().enabled = false;
-        //isAttackReady = false;
-        //attackIndex = 0;
-        //animator.SetInteger("AttackIndex", attackIndex);
     }
-        //public void EndAttack()
-        //{
-        //    if (!playerStats.isAttackScan)
-        //    {
-        //        Debug.Log("공격 끝");
-        //        playerStats.isAttack = false;
-        //        EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
-        //    }
-        //}
-        #endregion
+    #endregion
 
 
-        //==========================================================
+    //==========================================================
 
-    }
+}
