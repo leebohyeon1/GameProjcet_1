@@ -44,9 +44,15 @@ public class PlayerMovement : MonoBehaviour
         if (playerStats.playerState != PlayerState.Die) { UpdateMovement(); }
        
     }
+
+    void FixedUpdate()
+    {
+        if (playerStats.playerState != PlayerState.Die) { FixedUpdateMovement(); }
+    }
+
     //==========================================================
 
-    void UpdateMovement()
+    void UpdateMovement() //애니메이션 및 입력 처리
     {
 
         //구르기 시작
@@ -55,22 +61,10 @@ public class PlayerMovement : MonoBehaviour
             StartDodge(playerInput.Horizontal, playerInput.Vertical); 
         }
 
-        if (playerStats.isDodging)
-        {
-            Dodge();
-            return;
-        }
-
         //타격
         if (playerInput.AttackPressed && !playerStats.isAttackScan)
         {
             Attack();
-        }
-
-        //락온 상대 바라보기
-        if (playerStats.isLockOn && !playerStats.isDodging)
-        {
-            LookLockOnTarget();
         }
 
         //락온/오프
@@ -95,15 +89,29 @@ public class PlayerMovement : MonoBehaviour
             LockOnToNextTarget();
         }
 
-        //구르기, 움직이기       
-        if(!playerStats.isDodging && !playerStats.isAttack)
-        {
-            Move(playerInput.Horizontal, playerInput.Vertical);
-        }
-
         if(Input.GetKeyDown(KeyCode.V))
         {
             playerStats.TakeDamage(10);
+        }
+    }
+
+    void FixedUpdateMovement() //물리적 행동
+    {
+        if (playerStats.isDodging)
+        {
+            Dodge();
+        }
+        else
+        {
+            if (!playerStats.isAttack)
+            {
+                Move(playerInput.Horizontal, playerInput.Vertical);
+            }
+        }
+        //락온 상대 바라보기
+        if (playerStats.isLockOn && !playerStats.isDodging)
+        {
+            LookLockOnTarget();
         }
     }
 
@@ -321,12 +329,15 @@ public class PlayerMovement : MonoBehaviour
     public void CheckAttack()
     {
         //EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
+        playerStats.isAttack = true;
+        rb.velocity = Vector3.zero;
         playerStats.curStamina -= playerStats.attackStaminaCost;
         playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = true;
         playerStats.Weapon.GetComponent<BoxCollider>().enabled = true;
     }
     public void EndCheckAttack()
     {
+        playerStats.isAttack = false;
         playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = false;
         playerStats.Weapon.GetComponent<BoxCollider>().enabled = false;
     }
