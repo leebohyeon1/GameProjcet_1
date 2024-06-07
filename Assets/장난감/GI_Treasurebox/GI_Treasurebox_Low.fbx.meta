@@ -1,0 +1,589 @@
+fileFormatVersion: 2
+guid: 732e21af85c2ee54a9b0ef5aabfd4233
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: aa141f7fb1921bd4686163d319239a69, type: 2}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 3
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 2
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: GI_Treasurebox_Low(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: treasurebox001
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.10548224, y: -0.04360535, z: -0.007064442}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: treasurebox002
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.08177965, y: -0.043605357, z: -0.007064446}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone003
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.038594637, y: 0.040146746, z: -0.000015847327}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone001
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.039136074, y: 0.037095014, z: 0.010561254}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone010
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03905065, y: 0.037095014, z: 0.010561254}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone011
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.038509745, y: 0.040146746, z: -0.000015847922}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rectangle007
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.031619206, y: 0.031597525, z: 0.0191997}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box029
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.00012646664, y: 0.024915596, z: -0.020272914}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object032
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.027199104, y: 0.0315014, z: 0.019288829}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rectangle004
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.018175978, y: 0.03140465, z: 0.019539446}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rectangle003
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.0060413135, y: 0.032081526, z: 0.019427562}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rectangle002
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.0060581244, y: 0.0316712, z: 0.019746857}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rectangle001
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.018196194, y: 0.031814992, z: 0.019220175}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rectangle005
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.027286302, y: 0.031701382, z: 0.019454632}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rectangle006
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.03166753, y: 0.03159751, z: 0.019199684}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object031
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.045316495, y: 0.027905487, z: 0.009885674}
+      rotation: {x: 0.7071068, y: 0.000000039340783, z: 0.000000022476453, w: 0.70710677}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object030
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.04531649, y: 0.02402337, z: 0.018045003}
+      rotation: {x: 0.7071068, y: 0.00000012363449, z: -9.545651e-22, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box034
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.04743509, y: 0.028820332, z: 0.01716159}
+      rotation: {x: 0.7071068, y: 0.000000061817246, z: -0.000000061817246, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object025
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.04531649, y: 0.027905483, z: 0.0098856725}
+      rotation: {x: 0.7071068, y: 0.000000061817246, z: -0.000000061817246, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object001
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.0453165, y: 0.024023369, z: 0.018045004}
+      rotation: {x: 0.7071068, y: 0.000000061817246, z: -0.000000061817246, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box033
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.047435094, y: 0.028820334, z: 0.017161591}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object029
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.01640204, y: 0.035044745, z: -0.013182725}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object028
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.016228305, y: 0.035044733, z: -0.0131827}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone017
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03642755, y: -0.0062075746, z: 0.025584009}
+      rotation: {x: 0.7071068, y: 2.7021173e-15, z: 0.00000006181724, w: 0.70710677}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone016
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.037387118, y: 0.0033498013, z: 0.032650493}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone015
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03850974, y: 0.0146941, z: 0.03189429}
+      rotation: {x: 0.7071068, y: 0.000000061817246, z: -0.000000061817246, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone014
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03905065, y: 0.024271214, z: 0.026156107}
+      rotation: {x: 0.7071068, y: 0.00000006181723, z: -0.000000061817246, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone013
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.036427554, y: 0.028221851, z: -0.01969356}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone012
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03738712, y: 0.036865585, z: -0.011163499}
+      rotation: {x: 0.7071067, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone006
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.03913607, y: 0.024271213, z: 0.02615611}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone007
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.038594645, y: 0.014694101, z: 0.031894293}
+      rotation: {x: 0.70710677, y: 2.7021175e-15, z: -0.00000006181724, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone008
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.037471365, y: 0.003349807, z: 0.032650497}
+      rotation: {x: 0.70710677, y: 0.00000006181724, z: 2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone009
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.03651158, y: -0.0062075737, z: 0.025583997}
+      rotation: {x: 0.70710677, y: 0.00000006181724, z: 2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone004
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.03747137, y: 0.036865585, z: -0.011163497}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cone005
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.036511593, y: 0.028221851, z: -0.01969356}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box030
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.050392993, y: 0.028301667, z: -0.020269124}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object009
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.033597972, y: 0.013560899, z: 0.005265362}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object008
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03339082, y: 0.013560921, z: 0.0052653374}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object007
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.000031165004, y: 0.010975663, z: 0.0023500882}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object005
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.020012131, y: 0.013560921, z: 0.005265345}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object004
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.006772423, y: 0.0135609135, z: 0.0052876743}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object003
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.007047918, y: 0.01356091, z: 0.005265354}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object002
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.020284563, y: 0.013560899, z: 0.005265366}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box024
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.04039577, y: 0.0056638215, z: 0.02200425}
+      rotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: -1.1043018, y: -1.2712623, z: -0.9920215}
+    - name: Box023
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.040441997, y: 0.01305421, z: 0.01570248}
+      rotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: -1.1043018, y: -1.2712623, z: -0.9920215}
+    - name: Box022
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.040446527, y: 0.018832888, z: 0.009301137}
+      rotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: -1.1043018, y: -1.2712623, z: -0.9920215}
+    - name: Box021
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.040442046, y: 0.023152389, z: 0.001797886}
+      rotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: -1.1043018, y: -1.2712623, z: -0.9920215}
+    - name: Box020
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.04039576, y: 0.02704131, z: -0.00699453}
+      rotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: -1.1043018, y: -1.2712623, z: -0.9920215}
+    - name: Box019
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.040721517, y: 0.0056638196, z: 0.022004247}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.7866197, y: 1.2712623, z: 1}
+    - name: Box018
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.0407687, y: 0.013054214, z: 0.015702484}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.7866197, y: 1.2712623, z: 1}
+    - name: Box017
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.040773295, y: 0.018832887, z: 0.009301136}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.7866197, y: 1.2712623, z: 1}
+    - name: Box016
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.04076874, y: 0.023152392, z: 0.0017978778}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.7866197, y: 1.2712623, z: 1}
+    - name: Box015
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.04072153, y: 0.027041314, z: -0.0069945296}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.7866197, y: 1.2712623, z: 1}
+    - name: Box039
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03811003, y: -0.03754675, z: -0.02746024}
+      rotation: {x: 0.7071068, y: -0.000000061817246, z: 0.000000061817246, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box040
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03811001, y: -0.037546743, z: 0.013764169}
+      rotation: {x: 0.70710677, y: -0.00000006181724, z: -2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box042
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.03843121, y: -0.037546746, z: 0.0137641765}
+      rotation: {x: 0.7071068, y: -0.00000006181724, z: 2.7021175e-15, w: 0.70710677}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box041
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.03843121, y: -0.037546746, z: -0.027460238}
+      rotation: {x: 0.7071067, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box036
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03419784, y: -0.037658166, z: -0.03147205}
+      rotation: {x: 0.7071068, y: -0.000000061817246, z: 0.000000061817246, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box035
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.034500584, y: -0.03761454, z: -0.03146956}
+      rotation: {x: 0.7071067, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box038
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03419784, y: -0.037658162, z: 0.017456632}
+      rotation: {x: 0.70710677, y: -2.7021175e-15, z: 0.00000006181724, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box037
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.034500588, y: -0.037614536, z: 0.01745349}
+      rotation: {x: 0.70710677, y: -0.00000006181724, z: -2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cylinder001
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.037578993, y: -0.01957649, z: -0.007114037}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wq
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.03803885, y: -0.01949714, z: -0.007109573}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box026
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.03753469, y: -0.019440597, z: -0.015680255}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cylinder002
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.038207836, y: -0.026958678, z: -0.007089947}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box025
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.037534688, y: -0.019440597, z: 0.0014044001}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wq001
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03790814, y: -0.01949714, z: -0.0071095717}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cylinder004
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.038075354, y: -0.026958678, z: -0.007089949}
+      rotation: {x: 0.7071067, y: 0.000000061817246, z: -0.00000006181723, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cylinder003
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.037448604, y: -0.019576492, z: -0.0071140365}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box028
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03740432, y: -0.019440597, z: -0.015680254}
+      rotation: {x: 0.7071068, y: -0.000000061817246, z: 0.000000061817246, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box027
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.03740432, y: -0.019440597, z: 0.0014044009}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: bar
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.00006801808, y: -0.025826843, z: -0.006896853}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood018
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.005836796, y: -0.02586588, z: -0.027455768}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood017
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.017160373, y: -0.02586588, z: -0.027455766}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood016
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.028434826, y: -0.02586588, z: -0.027455764}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood015
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.028177818, y: -0.02586588, z: -0.027455762}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood014
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.01687054, y: -0.02586588, z: -0.02745577}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood013
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.0056119063, y: -0.02586588, z: -0.027464787}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood12
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.02817783, y: -0.025865886, z: 0.013518415}
+      rotation: {x: 0.70710677, y: -0.00000006181724, z: -2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood11
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.016870547, y: -0.02586588, z: 0.0135184135}
+      rotation: {x: 0.70710677, y: -0.00000006181724, z: -2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood10
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.005611909, y: -0.025865888, z: 0.013518409}
+      rotation: {x: 0.70710677, y: -0.00000006181724, z: -2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood9
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.0058367876, y: -0.025865884, z: 0.013518408}
+      rotation: {x: 0.70710677, y: -0.00000006181724, z: -2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood8
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.017160365, y: -0.025865886, z: 0.013518412}
+      rotation: {x: 0.70710677, y: -0.00000006181724, z: -2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wood7
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.02843481, y: -0.025865883, z: 0.013518415}
+      rotation: {x: 0.70710677, y: -0.00000006181724, z: -2.7021173e-15, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box014
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.034582254, y: -0.02586727, z: 0.009125174}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.99999934, y: 0.99999994, z: 1.0000007}
+    - name: Box013
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.034582254, y: -0.02586727, z: 0.0011191128}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.99999934, y: 0.99999994, z: 1.0000007}
+    - name: Box012
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.034582242, y: -0.02586727, z: -0.007050701}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.99999934, y: 0.99999994, z: 1.0000007}
+    - name: Box011
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.034582254, y: -0.02586727, z: -0.015056803}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.99999934, y: 0.99999994, z: 1.0000007}
+    - name: Box010
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: -0.034582265, y: -0.025867265, z: -0.02307068}
+      rotation: {x: 0.7071068, y: -8.659561e-17, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 0.99999934, y: 0.99999994, z: 1.0000007}
+    - name: Box009
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.0343163, y: -0.025867276, z: 0.009125179}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1.0000006, y: 0.99999994, z: 0.9999997}
+    - name: Box008
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.034316298, y: -0.025867272, z: 0.0011191283}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1.0000001, y: 1, z: 0.9999999}
+    - name: Box007
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.034316298, y: -0.025867272, z: -0.0070506954}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1.0000001, y: 1, z: 0.9999999}
+    - name: Box006
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.034316298, y: -0.025867272, z: -0.015056795}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1.0000001, y: 1, z: 0.9999999}
+    - name: Box005
+      parentName: GI_Treasurebox_Low(Clone)
+      position: {x: 0.034316298, y: -0.025867272, z: -0.023070665}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1.0000001, y: 1, z: 0.9999999}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 0
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

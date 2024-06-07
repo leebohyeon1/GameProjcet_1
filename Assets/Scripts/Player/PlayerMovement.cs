@@ -320,7 +320,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerStats.curStamina > playerStats.attackStaminaCost)
         {
-            Debug.Log("공격");
             rb.velocity = Vector3.zero;
             AttackCount = 0;
             animator.SetTrigger("Attack");
@@ -332,6 +331,7 @@ public class PlayerMovement : MonoBehaviour
         playerStats.isAttack = true;
         rb.velocity = Vector3.zero;
         playerStats.curStamina -= playerStats.attackStaminaCost;
+        Debug.Log("공격"); 
         playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = true;
         playerStats.Weapon.GetComponent<BoxCollider>().enabled = true;
     }

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public enum EVENT_TYPE
 {
-    GAME_INIT,
+    SCENE_LOAD,
     GAME_END,
     HEALTH_CHANGE,
     PLAYER_INPUT,

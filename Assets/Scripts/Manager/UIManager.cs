@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
-{
+public class UIManager : MonoBehaviour, IListener
+{ 
     public static UIManager Instance { get; private set; }
 
-    public LockOnUI lockOnUI;
-    public HealthBarUI healthBarUI;
-    public StaminaBarUI staminaBarUI;
+    public TitleUI titleUI;
+    public InGameUI InGameUI;
     //==========================================================
 
     void Awake()
@@ -26,38 +27,79 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        if (lockOnUI == null) { lockOnUI = FindObjectOfType<LockOnUI>(); }
+        EventManager.Instance.AddListener(EVENT_TYPE.SCENE_LOAD, this);
 
-        if (healthBarUI == null) { healthBarUI = FindObjectOfType<HealthBarUI>(); }
+        if (titleUI == null) { titleUI = FindObjectOfType<TitleUI>(); }
 
-        if (staminaBarUI == null) { staminaBarUI = FindObjectOfType<StaminaBarUI>(); }
+        if (InGameUI == null) { InGameUI = FindObjectOfType<InGameUI>(); }
+
+        TitleUISet(false);
+        GameUISet(false);
+
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case 0:
+                TitleUISet();
+                break;
+            case 1:
+                GameUISet();
+                break;
+        }
+
     }
+    public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
+    {
+        switch (Param)
+        {
+            case 0:
+                TitleUISet();
+                GameUISet(false);
+                break;
+            case 1:
+                TitleUISet(false);
+                GameUISet(true);
+                break;
+        }
+    }  
     //==========================================================
 
     #region PlayerUI
     public void ShowLockOnUI(Transform target)
     {
-        lockOnUI.Show(target);
+        InGameUI.Show(target);
     }
 
     public void HideLockOnUI()
     {
-        lockOnUI.Hide();
+        InGameUI.Hide();
     }
 
     public void UpdateLockOnUIPosition(Transform target)
     {
-        lockOnUI.UpdatePosition(target);
+        InGameUI.UpdatePosition(target);
     }
 
     public void HealthBarValue(float MaxVal, float CurVal)
     {
-        healthBarUI.HpValue(MaxVal, CurVal);
+        InGameUI.HpValue(MaxVal, CurVal);
     }
 
     public void StaminaBarValue(float MaxVal, float CurVal)
     {
-        staminaBarUI.StaminaValue(MaxVal, CurVal);
+        InGameUI.StaminaValue(MaxVal, CurVal);
     }
     #endregion
+
+    #region SetSceneUI
+    void TitleUISet(bool On = true)
+    {
+        titleUI.gameObject.SetActive(On);
+    }
+
+    void GameUISet(bool On = true)
+    {
+        InGameUI.gameObject.SetActive(On);
+    }
+
+    #endregion  
 }
