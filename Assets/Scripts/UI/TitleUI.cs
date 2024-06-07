@@ -21,15 +21,20 @@ public class TitleUI : MonoBehaviour
     //==========================================================
 
     #region Button
-    public void StartGame()
+    public void StartBtn()
     {
         SceneManager.LoadScene(1);
         EventManager.Instance.PostNotification(EVENT_TYPE.SCENE_LOAD, this, 1);
     }
 
-    public void ExitGame()
+    public void ExitBtn()
     {
         Application.Quit();
+    }
+
+    public void OptionBtn()
+    {
+        UIManager.Instance.OptionUISet(true);
     }
     #endregion
 

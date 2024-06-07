@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour, IListener
     public static UIManager Instance { get; private set; }
 
     public TitleUI titleUI;
-    public InGameUI InGameUI;
+    public InGameUI inGameUI;
+    public OptionUI optionUI;
     //==========================================================
 
     void Awake()
@@ -30,11 +31,12 @@ public class UIManager : MonoBehaviour, IListener
         EventManager.Instance.AddListener(EVENT_TYPE.SCENE_LOAD, this);
 
         if (titleUI == null) { titleUI = FindObjectOfType<TitleUI>(); }
-
-        if (InGameUI == null) { InGameUI = FindObjectOfType<InGameUI>(); }
+        if (inGameUI == null) { inGameUI = FindObjectOfType<InGameUI>(); }
+        if(optionUI == null) { optionUI = FindObjectOfType<OptionUI>(); } 
 
         TitleUISet(false);
         GameUISet(false);
+        OptionUISet(false);
 
         switch (SceneManager.GetActiveScene().buildIndex)
         {
@@ -47,6 +49,14 @@ public class UIManager : MonoBehaviour, IListener
         }
 
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OptionUISet();
+        }
+    }
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
         switch (Param)
@@ -54,10 +64,12 @@ public class UIManager : MonoBehaviour, IListener
             case 0:
                 TitleUISet();
                 GameUISet(false);
+                OptionUISet(false);
                 break;
             case 1:
                 TitleUISet(false);
-                GameUISet(true);
+                GameUISet();
+                OptionUISet(false);
                 break;
         }
     }  
@@ -66,39 +78,44 @@ public class UIManager : MonoBehaviour, IListener
     #region PlayerUI
     public void ShowLockOnUI(Transform target)
     {
-        InGameUI.Show(target);
+        inGameUI.Show(target);
     }
 
     public void HideLockOnUI()
     {
-        InGameUI.Hide();
+        inGameUI.Hide();
     }
 
     public void UpdateLockOnUIPosition(Transform target)
     {
-        InGameUI.UpdatePosition(target);
+        inGameUI.UpdatePosition(target);
     }
 
     public void HealthBarValue(float MaxVal, float CurVal)
     {
-        InGameUI.HpValue(MaxVal, CurVal);
+        inGameUI.HpValue(MaxVal, CurVal);
     }
 
     public void StaminaBarValue(float MaxVal, float CurVal)
     {
-        InGameUI.StaminaValue(MaxVal, CurVal);
+        inGameUI.StaminaValue(MaxVal, CurVal);
     }
     #endregion
 
     #region SetSceneUI
-    void TitleUISet(bool On = true)
+    public void TitleUISet(bool On = true)
     {
         titleUI.gameObject.SetActive(On);
     }
 
-    void GameUISet(bool On = true)
+    public void GameUISet(bool On = true)
     {
-        InGameUI.gameObject.SetActive(On);
+        inGameUI.gameObject.SetActive(On);
+    }
+
+    public void OptionUISet(bool On = true)
+    {
+        optionUI.gameObject.SetActive(On);
     }
 
     #endregion  
