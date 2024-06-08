@@ -13,7 +13,7 @@ public class EnemyType : ScriptableObject
 
     [Header("공격")]
     public float attackDistance = 3f;
-    public float attackSpeed = 2;
+    public float attackTime = 2;
 
     [Header("현재 상태")]
     public EnemyState enemyState;

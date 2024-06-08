@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public enum EVENT_TYPE
 {
-    GAME_INIT,
-    GAME_END,
+    SCENE_LOAD,
+    CHECK_ATTACK,
     HEALTH_CHANGE,
-    PLAYER_INPUT,
+    PLAYER_ATTACK,
     SHAKE_CAMERA,
     PLAYER_ACT,
     DEAD

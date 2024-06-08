@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {     
+
         if(rb == null) { rb = GetComponent<Rigidbody>(); }
         if(playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
         if(playerInput == null) { playerInput = GetComponent<PlayerInput>(); }
@@ -49,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerStats.playerState != PlayerState.Die) { FixedUpdateMovement(); }
     }
+
 
     //==========================================================
 
@@ -89,10 +91,7 @@ public class PlayerMovement : MonoBehaviour
             LockOnToNextTarget();
         }
 
-        if(Input.GetKeyDown(KeyCode.V))
-        {
-            playerStats.TakeDamage(10);
-        }
+
     }
 
     void FixedUpdateMovement() //물리적 행동
@@ -211,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Dodge() //구르기 중(playerStats.dodgeDuration 동안 일정한 속도로 구르기를 함);
     {
-        dodgeTimer -= Time.deltaTime;
+        dodgeTimer -= Time.fixedDeltaTime;
         if (dodgeTimer <= 0f)
         {
             EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
@@ -296,7 +295,7 @@ public class PlayerMovement : MonoBehaviour
 
     void LockOnToTarget(Transform target)
     {
-        lockOnTarget = target.GetChild(0);
+        lockOnTarget = target.GetComponentInParent<EnemyStats>().Point;
         UIManager.Instance.ShowLockOnUI(target);
         playerStats.isLockOn = true;
     }
@@ -320,7 +319,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerStats.curStamina > playerStats.attackStaminaCost)
         {
-            Debug.Log("공격");
             rb.velocity = Vector3.zero;
             AttackCount = 0;
             animator.SetTrigger("Attack");
@@ -331,15 +329,13 @@ public class PlayerMovement : MonoBehaviour
         //EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
         playerStats.isAttack = true;
         rb.velocity = Vector3.zero;
-        playerStats.curStamina -= playerStats.attackStaminaCost;
-        playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = true;
-        playerStats.Weapon.GetComponent<BoxCollider>().enabled = true;
+        playerStats.curStamina -= playerStats.attackStaminaCost; 
+        EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK,this,true);
     }
     public void EndCheckAttack()
     {
         playerStats.isAttack = false;
-        playerStats.Weapon.transform.GetChild(0).GetChild(0).GetComponent<TrailRenderer>().enabled = false;
-        playerStats.Weapon.GetComponent<BoxCollider>().enabled = false;
+        EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK, this, false);
     }
     #endregion
 
