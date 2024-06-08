@@ -8,8 +8,10 @@ public class InGameUI : MonoBehaviour
 {
     public Slider hpSlider;
     public Slider staminaBarSlider;
+    public Slider enemyHpSlider;
 
     public Image lockOnIndicator;
+    [SerializeField]    
     private Transform currentTarget;
     private Camera playerCamera;
     //==========================================================
@@ -18,6 +20,7 @@ public class InGameUI : MonoBehaviour
     {
         if (hpSlider == null) { hpSlider = GameObject.Find("hpBar").GetComponent<Slider>(); }
         if (staminaBarSlider == null) { staminaBarSlider = GameObject.Find("staminaBar").GetComponent<Slider>(); }
+        if(enemyHpSlider == null) { enemyHpSlider = GameObject.Find("enemyHpBar").GetComponent<Slider>();}
 
         if (lockOnIndicator == null) { lockOnIndicator = GameObject.Find("lockOnIndicator").GetComponent<Image>(); }
         if (playerCamera == null) { playerCamera = Camera.main; }
@@ -29,6 +32,11 @@ public class InGameUI : MonoBehaviour
     public void HpValue(float MaxVal, float CurVal)
     {
         hpSlider.value = CurVal / MaxVal;
+    }
+
+    public void EnemyHpValue(float MaxVal, float CurVal)
+    {
+        enemyHpSlider.value = CurVal / MaxVal;
     }
     #endregion
 
@@ -67,6 +75,7 @@ public class InGameUI : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (playerCamera == null) { playerCamera = Camera.main; }
+        Hide();
     }
 
     private void OnEnable()

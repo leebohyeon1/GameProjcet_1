@@ -8,7 +8,7 @@ public class PlayerAnimEvent : MonoBehaviour
 
     void Start()
     {
-        playerMovement = transform.parent.GetComponent<PlayerMovement>();
+        playerMovement = GetComponentInParent<PlayerMovement>();
     }
     //void StartAttack()
     //{

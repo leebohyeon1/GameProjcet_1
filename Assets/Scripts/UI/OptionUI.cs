@@ -227,13 +227,12 @@ public class OptionUI : MonoBehaviour
 
         SetResolution(resolutionIndex);
         resolutionDropdown.value = resolutionIndex;
-        resolutionDropdown.RefreshShownValue();
+
         SetFrameRate(frameRateIndex);
         frameRateDropdown.value = frameRateIndex;
-        frameRateDropdown.RefreshShownValue();
+
         ChangeFullScreenMode((ScreenMode)screenModeIndex);
-        ScreenModeDropdown.value = screenModeIndex;
-        ScreenModeDropdown.RefreshShownValue();
+        ScreenModeDropdown.value = screenModeIndex;   
     }
 }
 

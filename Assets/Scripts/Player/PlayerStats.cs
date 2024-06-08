@@ -62,8 +62,7 @@ public class PlayerStats : MonoBehaviour, IListener
     public float dodgeDuration = 0.5f; //구르기 시간
 
     [Header("공격")]
-    public Transform Weapon;
-
+    public float Damage;
 
     [Header("락 온")]
     public float measuringAngle = 45f; //플레이어 정면에서 락온 인식 각도
@@ -132,6 +131,10 @@ public class PlayerStats : MonoBehaviour, IListener
 
     public void TakeDamage(float damage)
     {
+        if(isDodging)
+        {
+            return;
+        }
         curHealth -= damage;
 
     }

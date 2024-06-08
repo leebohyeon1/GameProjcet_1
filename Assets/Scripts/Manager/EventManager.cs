@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public enum EVENT_TYPE
 {
     SCENE_LOAD,
-    GAME_END,
+    CHECK_ATTACK,
     HEALTH_CHANGE,
-    PLAYER_INPUT,
+    PLAYER_ATTACK,
     SHAKE_CAMERA,
     PLAYER_ACT,
     DEAD

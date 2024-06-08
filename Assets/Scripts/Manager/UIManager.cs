@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -59,19 +60,19 @@ public class UIManager : MonoBehaviour, IListener
     }
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
-        switch (Param)
-        {
-            case 0:
-                TitleUISet();
-                GameUISet(false);
-                OptionUISet(false);
-                break;
-            case 1:
-                TitleUISet(false);
-                GameUISet();
-                OptionUISet(false);
-                break;
-        }
+        //switch (Param)
+        //{
+        //    case 0:
+        //        TitleUISet();
+        //        GameUISet(false);
+        //        OptionUISet(false);
+        //        break;
+        //    case 1:
+        //        TitleUISet(false);
+        //        GameUISet();
+        //        OptionUISet(false);
+        //        break;
+        //}
     }  
     //==========================================================
 
@@ -118,5 +119,41 @@ public class UIManager : MonoBehaviour, IListener
         optionUI.gameObject.SetActive(On);
     }
 
-    #endregion  
+    #endregion
+
+    #region BossUI
+    public void EnemyHealthBarValue(float MaxVal, float CurVal)
+    {
+        inGameUI.EnemyHpValue(MaxVal,CurVal);
+    }
+    #endregion
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case 0:
+                TitleUISet();
+                GameUISet(false);
+                OptionUISet(false);
+                break;
+            case 1:
+                TitleUISet(false);
+                GameUISet();
+                OptionUISet(false);
+                break;
+        }
+    }
+
+    private void OnEnable()
+    {
+        // SceneManager.sceneLoaded 이벤트에 OnSceneLoaded 메서드를 구독.
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // SceneManager.sceneLoaded 이벤트에서 OnSceneLoaded 메서드를 구독 해제.
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 }
