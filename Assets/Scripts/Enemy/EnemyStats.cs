@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
@@ -28,6 +29,7 @@ public class EnemyStats : MonoBehaviour
                 currentHP = 0;
                 enemyState = EnemyState.Die;
                 FindObjectOfType<PlayerMovement>().UnlockTarget();
+                EventManager.Instance.PostNotification(EVENT_TYPE.ENEMY_STATE,this,EnemyState.Die);
             }
             Debug.Log(currentHP);
         }
@@ -46,6 +48,7 @@ public class EnemyStats : MonoBehaviour
     [Header("현재 상태")]
     public EnemyState enemyState;
     public EnemyPersonality enemyPersonality;
+    public bool isAttack;
 
     public Transform Point;
     //==========================================================

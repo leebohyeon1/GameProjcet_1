@@ -11,7 +11,8 @@ public enum EVENT_TYPE
     PLAYER_ATTACK,
     SHAKE_CAMERA,
     PLAYER_ACT,
-    DEAD
+    ENEMY_STATE,
+    DEAD,
 };
 public interface IListener
 {

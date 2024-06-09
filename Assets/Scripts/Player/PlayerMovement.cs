@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private float turnSmoothVelocity;
 
     private float dodgeTimer;
+    private bool inputAttack;
     Vector3 dodgeDirection;
 
     int hasgAttackCount = Animator.StringToHash("AttackCount");
@@ -26,8 +27,7 @@ public class PlayerMovement : MonoBehaviour
     //==========================================================
 
     void Start()
-    {     
-
+    {       
         if(rb == null) { rb = GetComponent<Rigidbody>(); }
         if(playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
         if(playerInput == null) { playerInput = GetComponent<PlayerInput>(); }
@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
         //플레이어 회전 잠금
         rb.freezeRotation = true;
-        //isAttackReady = false;
+        inputAttack = false;
         //attackIndex = 0;
         enemyLayer = LayerMask.GetMask("Enemy");
     }
@@ -51,6 +51,34 @@ public class PlayerMovement : MonoBehaviour
         if (playerStats.playerState != PlayerState.Die) { FixedUpdateMovement(); }
     }
 
+    //public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
+    //{       
+    //    switch (Param) 
+    //    {
+    //        case KeyCode.D:
+    //            if (!playerStats.isAttackScan && !playerStats.isDodging)
+    //            {
+    //                Attack();
+    //            }
+    //            break;
+    //        case KeyCode.Space:
+    //            if (!playerStats.isDodging && !playerStats.isAttack)
+    //            {
+    //                StartDodge(playerInput.Horizontal, playerInput.Vertical);
+    //            }
+    //            break;
+    //        case KeyCode.LeftControl:
+    //            if (!playerStats.isLockOn && !playerStats.isDodging)
+    //            {
+    //                LockOnToClosestTarget();
+    //            }
+    //            else if (playerStats.isLockOn)
+    //            {
+    //                UnlockTarget();
+    //            }
+    //            break;
+    //    }
+    //}
 
     //==========================================================
 
@@ -86,10 +114,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //마우스 휠로 락온 타겟 변경
-        if (playerStats.isLockOn && playerInput.scroll != 0)
-        {
-            LockOnToNextTarget();
-        }
+        //if (playerStats.isLockOn && playerInput.scroll != 0)
+        //{
+        //    LockOnToNextTarget();
+        //}
 
 
     }
@@ -215,10 +243,11 @@ public class PlayerMovement : MonoBehaviour
         {
             EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
             playerStats.isDodging = false;
+            
             rb.velocity = Vector3.zero;
             return;
         }
-
+        EndCheckAttack();
         rb.velocity = dodgeDirection * playerStats.dodgeSpeed;
     }
     #endregion
@@ -336,6 +365,7 @@ public class PlayerMovement : MonoBehaviour
     {
         playerStats.isAttack = false;
         EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK, this, false);
+        inputAttack = false;
     }
     #endregion
 

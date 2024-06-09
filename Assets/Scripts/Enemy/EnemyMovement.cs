@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.UIElements;
 using static EnemyStats;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour,IListener
 {
     private EnemyStats enemyStats;
     private NavMeshAgent agent;
@@ -19,10 +19,13 @@ public class EnemyMovement : MonoBehaviour
     private float turnSmoothVelocity;
 
     public Transform attackPos;
+    public TrailRenderer trail;
     //==========================================================
 
     void Start()
     {
+        EventManager.Instance.AddListener(EVENT_TYPE.ENEMY_STATE, this);
+
         rb = GetComponent<Rigidbody>();
         enemyStats = GetComponent<EnemyStats>();
         agent = GetComponent<NavMeshAgent>();
@@ -32,44 +35,60 @@ public class EnemyMovement : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         orbitTime = 0;     
         GetRandomTime();
-
-        StartCoroutine(AttackRoof());
+        animator.SetBool("isMove", true);
+      
     }
 
     void Update()
     {
-        if (enemyStats.enemyState != EnemyState.Die)
+        if (enemyStats.enemyState == EnemyState.Die)
         {
-
-            float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-
-            if (distanceToPlayer <= enemyStats.attackDistance + 0.5f)
-            {
-                enemyStats.enemyState = EnemyState.Combat;
-            }
-            else //if (distanceToPlayer <= enemyStats.chaseDistance)
-            {
-                enemyStats.enemyState = EnemyState.Chase;
-            }
-
-            switch (enemyStats.enemyState)
-            {
-                case EnemyState.Combat:
-                    HandleCombatState();
-                    break;
-                case EnemyState.Chase:
-                    ChasePlayer();
-                    break;
-            }
-
            
-            //Attack();
-        }
-        else
-        {
-            StopAllCoroutines();
+            return;
         }
 
+        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+
+        if (distanceToPlayer <= enemyStats.attackDistance && enemyStats.enemyState != EnemyState.Combat)
+        {
+            enemyStats.enemyState = EnemyState.Combat;
+            EventManager.Instance.PostNotification(EVENT_TYPE.ENEMY_STATE,this, EnemyState.Combat);
+        }
+        else if (distanceToPlayer > enemyStats.attackDistance && enemyStats.enemyState != EnemyState.Chase )
+        {
+            enemyStats.enemyState = EnemyState.Chase;
+            EventManager.Instance.PostNotification(EVENT_TYPE.ENEMY_STATE, this, EnemyState.Chase);
+        }
+
+        switch (enemyStats.enemyState)
+        {
+            case EnemyState.Combat:
+                HandleCombatState();
+                break;
+            case EnemyState.Chase:
+                ChasePlayer();
+                break;
+        } 
+
+    }
+
+    public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
+    {
+        switch(Param)
+        {
+            case EnemyState.Combat:
+                animator.SetBool("isMove", false);
+                StartCoroutine("AttackRoof");
+                break;
+            case EnemyState.Chase:
+                animator.SetBool("isMove",true);
+                StopCoroutine("AttackRoof");
+                break;
+            case EnemyState.Die:
+                animator.SetTrigger("Die");
+                StopCoroutine("AttackRoof");
+                break;
+        }
     }
     //==========================================================
 
@@ -81,18 +100,22 @@ public class EnemyMovement : MonoBehaviour
             agent.ResetPath();
         }
 
-        switch (enemyStats.enemyPersonality)
+        if (!enemyStats.isAttack)
         {
-            case EnemyPersonality.Cautious:
-                BoundaryMode();
-                break;
-            case EnemyPersonality.Aggressive:
-                DareDevilMode();
-                break;
-            case EnemyPersonality.Cold:
-                ColdMode();
-                break;
+            switch (enemyStats.enemyPersonality)
+            {
+                case EnemyPersonality.Cautious:
+                    BoundaryMode();
+                    break;
+                case EnemyPersonality.Aggressive:
+                    DareDevilMode();
+                    break;
+                case EnemyPersonality.Cold:
+                    ColdMode();
+                    break;
+            }
         }
+     
     }
 
     #region EnemyMode
@@ -101,7 +124,7 @@ public class EnemyMovement : MonoBehaviour
         Vector3 direction = (transform.position - player.position).normalized;
         Vector3 Position = player.position + direction * enemyStats.attackDistance;
 
-        transform.position = Vector3.MoveTowards(transform.position, Position, enemyStats.speed * Time.deltaTime);
+        rb.position = Vector3.MoveTowards(transform.position, Position, enemyStats.speed * Time.deltaTime);
         LookAtPlayer();
     }
 
@@ -129,7 +152,7 @@ public class EnemyMovement : MonoBehaviour
         RotateChange();
         Vector3 direction = (transform.position - player.position).normalized;
         float orbitDirection = isOrbitClockwise ? 1 : -1;
-        Vector3 orbitPosition = player.position + Quaternion.Euler(0, enemyStats.rotationSpeed * orbitDirection * Time.deltaTime, 0) * direction * enemyStats.attackDistance;
+        Vector3 orbitPosition = player.position + Quaternion.Euler(0, enemyStats.rotationSpeed * orbitDirection * Time.deltaTime, 0) * direction * enemyStats.attackDistance/2;
         transform.position = Vector3.MoveTowards(transform.position, orbitPosition, enemyStats.boundarySpeed * Time.deltaTime);
      
         //transform.RotateAround(player.position, orbitDirection, enemyStats.rotationSpeed * Time.deltaTime);
@@ -163,25 +186,29 @@ public class EnemyMovement : MonoBehaviour
         while (enemyStats.enemyState != EnemyState.Die)
         {
             // Wait for a random interval between 2 and 5 seconds
-            float waitTime = Random.Range(2f, 5f);        
+            float waitTime = Random.Range(0.5f, 2f);        
             yield return new WaitForSeconds(waitTime);
             int Attackindex = Random.Range(0, 3);
             // Select and execute a random pattern
             animator.SetInteger("AttackCount", Attackindex);
             animator.SetTrigger("Attack");
-
+            enemyStats.isAttack = true;
            
         }
+    
     }
 
     public void Attack()
     {
         attackPos.GetComponent<BoxCollider>().enabled = true;
+        trail.enabled = true;
     }
 
     public void EndAttack()
     {
         attackPos.GetComponent<BoxCollider>().enabled = false;
+        trail.enabled = false;
+        enemyStats.isAttack = false;
     }
 //==========================================================
 
@@ -191,7 +218,7 @@ void LookAtPlayer()
         float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
         //transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
 
-        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.12f);
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.25f);
         rb.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 
@@ -210,11 +237,4 @@ void LookAtPlayer()
         randTime = Random.Range(1.2f, 2f);
     }
 
-
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireCube(attackPos.position, attackPos.localScale); 
-    //}
 }

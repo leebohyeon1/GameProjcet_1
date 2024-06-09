@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e438c5ae7b065e346818fb9647e17e81, type: 3}
   m_Name: ColdEnemy
   m_EditorClassIdentifier: 
-  Speed: 5
+  Speed: 10
   boundarySpeed: 2.5
-  rotationSpeed: 6
-  attackDistance: 4
+  rotationSpeed: 10
+  attackDistance: 9
   attackTime: 2
-  enemyState: 0
+  enemyState: 1
   enemyPersonality: 2
