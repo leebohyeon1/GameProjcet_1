@@ -10,10 +10,7 @@ public class PlayerAnimEvent : MonoBehaviour
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
     }
-    //void StartAttack()
-    //{
-    //    //playerMovement.StartAttack();
-    //}
+
     void EndCheckAttack()
     {
         playerMovement.EndCheckAttack();
@@ -24,8 +21,4 @@ public class PlayerAnimEvent : MonoBehaviour
         playerMovement.CheckAttack();
     }
 
-    //void EndAttack()
-    //{
-    //    playerMovement.EndAttack();
-    //}
 }

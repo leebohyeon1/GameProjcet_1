@@ -56,22 +56,4 @@ public class PlayerInput : MonoBehaviour
             }
         }
     }
-
-    bool GetKeyDown(KeyCode key)
-    {
-        // 키가 방금 눌렸는지 확인
-        if (Input.GetKeyDown(key))
-        {
-            keyStates[key] = true;
-            return true;
-        }
-
-        // 키가 이미 눌린 상태인지 확인
-        if (keyStates.ContainsKey(key) && keyStates[key])
-        {
-            return true;
-        }
-
-        return false;
-    }
 }
