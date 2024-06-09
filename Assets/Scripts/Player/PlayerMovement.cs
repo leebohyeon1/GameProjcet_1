@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float dodgeTimer;
     Vector3 dodgeDirection;
+    //==========================================================
 
     int hasgAttackCount = Animator.StringToHash("AttackCount");
     public int AttackCount
@@ -25,9 +26,14 @@ public class PlayerMovement : MonoBehaviour
     }
     //==========================================================
 
-    void Start()
-    {     
+    [Space(20f)]
+    public bool ikActive = false;
+    public Transform rightHandObj = null;
+    public Transform leftHandObj = null;
+    //==========================================================
 
+    void Start()
+    {       
         if(rb == null) { rb = GetComponent<Rigidbody>(); }
         if(playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
         if(playerInput == null) { playerInput = GetComponent<PlayerInput>(); }
@@ -35,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
 
         //플레이어 회전 잠금
         rb.freezeRotation = true;
-        //isAttackReady = false;
         //attackIndex = 0;
         enemyLayer = LayerMask.GetMask("Enemy");
     }
@@ -52,6 +57,39 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    void OnAnimatorIK()
+    {
+        if (animator)
+        {
+            if (ikActive)
+            {
+                // Right hand IK
+                if (rightHandObj != null)
+                {
+                    animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0.5f);
+                    animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+                    animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandObj.position);
+                    animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandObj.rotation);
+                }
+
+                // Left hand IK
+                if (leftHandObj != null)
+                {
+                    animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+                    animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+                    animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandObj.position);
+                    animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHandObj.rotation);
+                }
+            }
+            else
+            {
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
+                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+                animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
+                animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
+            }
+        }
+    }
     //==========================================================
 
     void UpdateMovement() //애니메이션 및 입력 처리
@@ -86,10 +124,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //마우스 휠로 락온 타겟 변경
-        if (playerStats.isLockOn && playerInput.scroll != 0)
-        {
-            LockOnToNextTarget();
-        }
+        //if (playerStats.isLockOn && playerInput.scroll != 0)
+        //{
+        //    LockOnToNextTarget();
+        //}
 
 
     }
@@ -215,10 +253,11 @@ public class PlayerMovement : MonoBehaviour
         {
             EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
             playerStats.isDodging = false;
+            
             rb.velocity = Vector3.zero;
             return;
         }
-
+        EndCheckAttack();
         rb.velocity = dodgeDirection * playerStats.dodgeSpeed;
     }
     #endregion
