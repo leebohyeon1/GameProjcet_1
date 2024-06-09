@@ -37,9 +37,9 @@ public class PlayerInput : MonoBehaviour
         Scroll = Input.GetAxis("Mouse ScrollWheel");
 
         // 각 키의 상태 업데이트
-        LockOnPressed = GetKeyDown(KeyCode.LeftControl);
-        DodgePressed = GetKeyDown(KeyCode.Space);
-        AttackPressed = GetKeyDown(KeyCode.D);
+        LockOnPressed = Input.GetKeyDown(KeyCode.LeftControl);
+        DodgePressed = Input.GetKeyDown(KeyCode.Space);
+        AttackPressed = Input.GetKeyDown(KeyCode.D);
     }
 
     void UpdateKeyStates()

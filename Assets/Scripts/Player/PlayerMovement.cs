@@ -15,8 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private float turnSmoothVelocity;
 
     private float dodgeTimer;
-    private bool inputAttack;
     Vector3 dodgeDirection;
+    //==========================================================
 
     int hasgAttackCount = Animator.StringToHash("AttackCount");
     public int AttackCount
@@ -24,6 +24,12 @@ public class PlayerMovement : MonoBehaviour
         get => animator.GetInteger(hasgAttackCount);
         set => animator.SetInteger(hasgAttackCount, value);
     }
+    //==========================================================
+
+    [Space(20f)]
+    public bool ikActive = false;
+    public Transform rightHandObj = null;
+    public Transform leftHandObj = null;
     //==========================================================
 
     void Start()
@@ -35,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
 
         //플레이어 회전 잠금
         rb.freezeRotation = true;
-        inputAttack = false;
         //attackIndex = 0;
         enemyLayer = LayerMask.GetMask("Enemy");
     }
@@ -51,35 +56,40 @@ public class PlayerMovement : MonoBehaviour
         if (playerStats.playerState != PlayerState.Die) { FixedUpdateMovement(); }
     }
 
-    //public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
-    //{       
-    //    switch (Param) 
-    //    {
-    //        case KeyCode.D:
-    //            if (!playerStats.isAttackScan && !playerStats.isDodging)
-    //            {
-    //                Attack();
-    //            }
-    //            break;
-    //        case KeyCode.Space:
-    //            if (!playerStats.isDodging && !playerStats.isAttack)
-    //            {
-    //                StartDodge(playerInput.Horizontal, playerInput.Vertical);
-    //            }
-    //            break;
-    //        case KeyCode.LeftControl:
-    //            if (!playerStats.isLockOn && !playerStats.isDodging)
-    //            {
-    //                LockOnToClosestTarget();
-    //            }
-    //            else if (playerStats.isLockOn)
-    //            {
-    //                UnlockTarget();
-    //            }
-    //            break;
-    //    }
-    //}
 
+    void OnAnimatorIK()
+    {
+        if (animator)
+        {
+            if (ikActive)
+            {
+                // Right hand IK
+                if (rightHandObj != null)
+                {
+                    animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0.5f);
+                    animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+                    animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandObj.position);
+                    animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandObj.rotation);
+                }
+
+                // Left hand IK
+                if (leftHandObj != null)
+                {
+                    animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+                    animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+                    animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandObj.position);
+                    animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHandObj.rotation);
+                }
+            }
+            else
+            {
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
+                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+                animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
+                animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
+            }
+        }
+    }
     //==========================================================
 
     void UpdateMovement() //애니메이션 및 입력 처리
@@ -365,7 +375,6 @@ public class PlayerMovement : MonoBehaviour
     {
         playerStats.isAttack = false;
         EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK, this, false);
-        inputAttack = false;
     }
     #endregion
 

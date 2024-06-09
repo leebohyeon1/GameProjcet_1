@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour, IListener
 {
+    private PlayerMovement playerMovemt;
+
     [Header("체력")]
     public float maxHealth = 100f; //최대 체력
     [SerializeField]
@@ -78,15 +80,22 @@ public class PlayerStats : MonoBehaviour, IListener
     public bool isBlocking;
     public bool isLockOn;
     public bool isStaminaRecovery;
-    //==========================================================
+    //========================================================== 
+    [Space(20f)]
+    public Transform rightHandIKTarget;
+    public Transform leftHandIKTarget;
+    public GameObject weaponPrefab;
 
+    private GameObject equippedWeapon;
+
+    //==========================================================
     private float staminaTimer;
     private float hpTimer;
     //==========================================================
 
     void Start()
     {
-        EventManager.Instance.AddListener(EVENT_TYPE.PLAYER_ACT, this);
+       
         currentHealth = maxHealth;
         currentStamina = maxStamina;
 
@@ -98,6 +107,11 @@ public class PlayerStats : MonoBehaviour, IListener
         isAttack = false;
         isBlocking = false;
         isLockOn = false;
+
+        playerMovemt = GetComponent<PlayerMovement>();
+        EquipWeapon(weaponPrefab);
+        EventManager.Instance.AddListener(EVENT_TYPE.PLAYER_ACT, this);
+        EventManager.Instance.AddListener(EVENT_TYPE.CHECK_ATTACK, this);
     }
 
     void Update()
@@ -120,7 +134,16 @@ public class PlayerStats : MonoBehaviour, IListener
 
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
-        isStaminaRecovery = !(bool)Param;
+        switch (Event_Type)
+        {
+            case EVENT_TYPE.CHECK_ATTACK:
+                equippedWeapon.GetComponent<BoxCollider>().enabled = (bool)Param;
+                equippedWeapon.GetComponent<Weapon>().trailRenderer.enabled = (bool)Param;
+                break;
+            case EVENT_TYPE.PLAYER_ACT:
+                isStaminaRecovery = !(bool)Param;
+                break;
+        }
     }
     //==========================================================
 
@@ -175,5 +198,21 @@ public class PlayerStats : MonoBehaviour, IListener
             hpTimer = 0f;
         }
 
+    }
+
+    public void EquipWeapon(GameObject weapon)
+    {
+        if (equippedWeapon != null)
+        {
+            Destroy(equippedWeapon);
+        }
+
+        equippedWeapon = Instantiate(weapon, rightHandIKTarget.position, rightHandIKTarget.rotation, rightHandIKTarget);
+        equippedWeapon.transform.localPosition = Vector3.zero;
+        equippedWeapon.transform.localRotation = Quaternion.identity;
+
+        playerMovemt.rightHandObj = rightHandIKTarget;
+        //ikControl.leftHandObj = leftHandIKTarget;
+        playerMovemt.ikActive = true;
     }
 }

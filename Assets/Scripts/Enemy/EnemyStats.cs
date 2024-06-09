@@ -31,7 +31,6 @@ public class EnemyStats : MonoBehaviour
                 FindObjectOfType<PlayerMovement>().UnlockTarget();
                 EventManager.Instance.PostNotification(EVENT_TYPE.ENEMY_STATE,this,EnemyState.Die);
             }
-            Debug.Log(currentHP);
         }
     }
 
