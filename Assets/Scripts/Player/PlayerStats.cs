@@ -51,6 +51,7 @@ public class PlayerStats : MonoBehaviour, IListener
     }
     public float staminaRecoveryTime = 0.05f; //스테미나 회복 주기
     public float staminaRecoveryValue = 0.2f; //스테미나 회복 주기별 값
+    public float StaminaRecoveryBeginsAfterAction = 0.7f;// 행동 후 스테미나 시작까지 시간
 
     [Header("스테미나 사용량")]
     public float attackStaminaCost = 15f; //공격 시 스테미나 소모량

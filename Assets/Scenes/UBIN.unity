@@ -1017,17 +1017,17 @@ PrefabInstance:
     - target: {fileID: 1063003259965384427, guid: 69e1ce219cc734e44977fea51db07ba9,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1063003259965384427, guid: 69e1ce219cc734e44977fea51db07ba9,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2660565289514620743, guid: 69e1ce219cc734e44977fea51db07ba9,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3623590071058289128, guid: 69e1ce219cc734e44977fea51db07ba9,
         type: 3}
@@ -1134,10 +1134,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7799017722113126070, guid: 69e1ce219cc734e44977fea51db07ba9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9099134861939514312, guid: 69e1ce219cc734e44977fea51db07ba9,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
