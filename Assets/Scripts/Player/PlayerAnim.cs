@@ -22,6 +22,4 @@ public class PlayerAnim : MonoBehaviour
     {
         playerMovement.CheckAttack();
     }
-
-
 }

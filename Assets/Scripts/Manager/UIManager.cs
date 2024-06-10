@@ -38,13 +38,11 @@ public class UIManager : MonoBehaviour, IListener
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                Debug.Log(0);
                 TitleUISet(true);
                 GameUISet(false);
                 OptionUISet(false);
                 break;
             case 1:
-                Debug.Log(1);
                 TitleUISet(false);
                 GameUISet(true);
                 OptionUISet(false);

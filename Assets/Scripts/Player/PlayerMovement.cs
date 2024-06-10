@@ -225,6 +225,7 @@ public class PlayerMovement : MonoBehaviour
         {
             
             animator.SetTrigger("Roll");
+            StartAct();
             //isAttackReady = false;
             EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT,this,true);
             playerStats.isDodging = true;
@@ -257,6 +258,7 @@ public class PlayerMovement : MonoBehaviour
             playerStats.isDodging = false;
             
             rb.velocity = Vector3.zero;
+            StartCoroutine("EndAct");
             return;
         }
         EndCheckAttack();
@@ -367,20 +369,30 @@ public class PlayerMovement : MonoBehaviour
     }
     public void CheckAttack()
     {
-        //EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
+        
         playerStats.isAttack = true;
         rb.velocity = Vector3.zero;
         playerStats.curStamina -= playerStats.attackStaminaCost; 
         EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK,this,true);
+        StartAct();
     }
     public void EndCheckAttack()
     {
         playerStats.isAttack = false;
         EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK, this, false);
+        StartCoroutine("EndAct");
     }
     #endregion
-
-
     //==========================================================
 
+    public void StartAct()
+    {
+        StopCoroutine("EndAct");
+        EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
+    }
+    public IEnumerator EndAct()
+    {
+        yield return new WaitForSeconds(0.7f);
+        EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
+    }
 }

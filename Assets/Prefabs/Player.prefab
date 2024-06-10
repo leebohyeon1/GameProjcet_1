@@ -100,7 +100,7 @@ MonoBehaviour:
   maxStamina: 100
   currentStamina: 0
   staminaRecoveryTime: 0.05
-  staminaRecoveryValue: 2
+  staminaRecoveryValue: 1
   attackStaminaCost: 15
   dodgeStaminaCost: 10
   speed: 12
