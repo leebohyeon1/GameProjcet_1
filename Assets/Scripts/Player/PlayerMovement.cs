@@ -392,7 +392,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public IEnumerator EndAct()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(playerStats.StaminaRecoveryBeginsAfterAction);
         EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
     }
 }
