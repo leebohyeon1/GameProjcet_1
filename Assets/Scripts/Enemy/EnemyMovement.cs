@@ -192,7 +192,7 @@ public class EnemyMovement : MonoBehaviour,IListener
             // Select and execute a random pattern
             animator.SetInteger("AttackCount", Attackindex);
             animator.SetTrigger("Attack");
-            enemyStats.isAttack = true;
+          
            
         }
     
@@ -201,6 +201,7 @@ public class EnemyMovement : MonoBehaviour,IListener
     public void Attack()
     {
         attackPos.GetComponent<BoxCollider>().enabled = true;
+        enemyStats.isAttack = true;
         trail.enabled = true;
     }
 
@@ -218,7 +219,7 @@ void LookAtPlayer()
         float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
         //transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
 
-        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.25f);
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.23f);
         rb.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 

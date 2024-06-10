@@ -101,6 +101,7 @@ MonoBehaviour:
   currentStamina: 0
   staminaRecoveryTime: 0.05
   staminaRecoveryValue: 1
+  StaminaRecoveryBeginsAfterAction: 0.7
   attackStaminaCost: 15
   dodgeStaminaCost: 10
   speed: 12
@@ -155,7 +156,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2847784531940937980}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 835b2ad4cb4d23543871443c60a8a0e6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

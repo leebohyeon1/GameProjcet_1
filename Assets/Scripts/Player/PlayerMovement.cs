@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float dodgeTimer;
     Vector3 dodgeDirection;
+    int Step = 0;
     //==========================================================
 
     int hasgAttackCount = Animator.StringToHash("AttackCount");
@@ -223,8 +224,12 @@ public class PlayerMovement : MonoBehaviour
     {     
         if (playerStats.curStamina > playerStats.dodgeStaminaCost )
         {
-            
-            animator.SetTrigger("Roll");
+
+            if (playerStats.isAttack)
+            {
+                EndCheckAttack();
+            }
+
             StartAct();
             //isAttackReady = false;
             EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT,this,true);
@@ -238,12 +243,15 @@ public class PlayerMovement : MonoBehaviour
             {             
                 float targetAngle = Mathf.Atan2(dodgeDirection.x, dodgeDirection.z) * Mathf.Rad2Deg;            
                  rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-                
                 dodgeDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                animator.SetTrigger("Roll");
+                Step = 0;
             }
             else
             {
+                animator.SetTrigger("BackStep");
                 dodgeDirection = -transform.forward;
+                Step = 1;
             }
         }
 
@@ -258,11 +266,19 @@ public class PlayerMovement : MonoBehaviour
             playerStats.isDodging = false;
             
             rb.velocity = Vector3.zero;
-            StartCoroutine("EndAct");
+            EndAct();
             return;
         }
-        EndCheckAttack();
-        rb.velocity = dodgeDirection * playerStats.dodgeSpeed;
+ 
+        if(Step == 1)
+        {
+            rb.velocity = dodgeDirection * playerStats.dodgeSpeed / 2;
+        }
+        else
+        {
+            rb.velocity = dodgeDirection * playerStats.dodgeSpeed;
+        }
+
     }
     #endregion
 
@@ -326,9 +342,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void LookLockOnTarget()
     {
-        Vector3 directionToTarget = (lockOnTarget.position - transform.position).normalized;
-        float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
-        rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+        if (lockOnTarget != null)
+        {
+            Vector3 directionToTarget = (lockOnTarget.position - transform.position).normalized;
+            float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+            rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+        }
     }
 
     public float PlayerToLockOnTargetDistance()
@@ -380,19 +399,37 @@ public class PlayerMovement : MonoBehaviour
     {
         playerStats.isAttack = false;
         EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK, this, false);
-        StartCoroutine("EndAct");
+        EndAct();
     }
     #endregion
+
+    public void TakeDamage(float damage)
+    {
+        if (playerStats.isDodging)
+        {
+            return;
+        }
+        playerStats.curHealth -= damage;
+
+        if (playerStats.curHealth <= 0)
+        {
+            //playerStats.curHealth = 0f;
+            playerStats.playerState = PlayerState.Die;
+            rb.velocity = Vector3.zero;
+            animator.SetTrigger("Death");
+            GetComponent<CapsuleCollider>().enabled = false;
+        }
+
+    }
     //==========================================================
 
     public void StartAct()
     {
-        StopCoroutine("EndAct");
+        EndAct();
         EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
     }
-    public IEnumerator EndAct()
-    {
-        yield return new WaitForSeconds(playerStats.StaminaRecoveryBeginsAfterAction);
+    public void EndAct()
+    {        
         EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
     }
 }

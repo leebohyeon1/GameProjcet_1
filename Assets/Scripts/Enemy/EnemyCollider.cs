@@ -13,7 +13,7 @@ public class EnemyCollider : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerStats>().TakeDamage(EnemyStats.damage);
+            other.GetComponent<PlayerMovement>().TakeDamage(EnemyStats.damage);
             GetComponent<BoxCollider>().enabled = false;
         }
     }

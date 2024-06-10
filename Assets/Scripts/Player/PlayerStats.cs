@@ -19,12 +19,8 @@ public class PlayerStats : MonoBehaviour, IListener
         }
         set
         {
-            currentHealth = value;
-            if (currentHealth <= 0)
-            {
-                currentHealth = 0f;
-                Die();
-            }
+            currentHealth = Mathf.Max(0f, value);   
+          
         }
     }
     public float hpRecoveryTime = 0.07f; //체력 회복 주기
@@ -42,11 +38,7 @@ public class PlayerStats : MonoBehaviour, IListener
         }
         set
         {
-            currentStamina = value;
-            if(currentStamina <= 0f)
-            {
-                currentStamina = 0f;           
-            }
+               currentStamina = Mathf.Max(0f, value);
         }
     }
     public float staminaRecoveryTime = 0.05f; //스테미나 회복 주기
@@ -91,6 +83,8 @@ public class PlayerStats : MonoBehaviour, IListener
 
     //==========================================================
     private float staminaTimer;
+    private float staminaTimer2;
+    private bool isAct;
     private float hpTimer;
     //==========================================================
 
@@ -116,11 +110,26 @@ public class PlayerStats : MonoBehaviour, IListener
 
     void Update()
     {
-        if(isStaminaRecovery)
+        if(playerState != PlayerState.Die)
         {
-            AutoRecoverStamina();
-        } 
-        AutoRecoverHp();
+            if (isStaminaRecovery)
+            {
+                AutoRecoverStamina();
+            }
+            AutoRecoverHp();
+        }
+
+
+
+        if (isAct)
+        {
+            staminaTimer2 += Time.deltaTime;
+            if(staminaTimer2 > StaminaRecoveryBeginsAfterAction)
+            {
+                EndAct();
+            }
+        }
+        
     }
 
     void OnDrawGizmos()
@@ -137,25 +146,24 @@ public class PlayerStats : MonoBehaviour, IListener
         switch (Event_Type)
         {
             case EVENT_TYPE.PLAYER_ACT:
-                isStaminaRecovery = !(bool)Param;
+                isAct = !(bool)Param;
+                if(isAct)
+                {
+                    staminaTimer2 = 0;                                    
+                }
+                else
+                {
+                    isStaminaRecovery = false;
+                }
                 break;
         }
     }
     //==========================================================
 
-    void Die()
+    public void EndAct()
     {
-        playerState = PlayerState.Die;
-    }
-
-    public void TakeDamage(float damage)
-    {
-        if(isDodging)
-        {
-            return;
-        }
-        curHealth -= damage;
-
+        isAct = false;
+        isStaminaRecovery = true;
     }
 
     public void AutoRecoverStamina()

@@ -72,21 +72,4 @@ public class InGameUI : MonoBehaviour
     #endregion
     //==========================================================
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (playerCamera == null) { playerCamera = Camera.main; }
-        Hide();
-    }
-
-    private void OnEnable()
-    {
-        // SceneManager.sceneLoaded 이벤트에 OnSceneLoaded 메서드를 구독.
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        // SceneManager.sceneLoaded 이벤트에서 OnSceneLoaded 메서드를 구독 해제.
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
 }
