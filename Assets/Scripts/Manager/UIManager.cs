@@ -19,11 +19,11 @@ public class UIManager : MonoBehaviour, IListener
         if (Instance != null && Instance != this)
         {
             DestroyImmediate(this.gameObject);
+            return;
         }
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
         }
     }
 
@@ -35,17 +35,19 @@ public class UIManager : MonoBehaviour, IListener
         if (inGameUI == null) { inGameUI = FindObjectOfType<InGameUI>(); }
         if(optionUI == null) { optionUI = FindObjectOfType<OptionUI>(); } 
 
-        TitleUISet(false);
-        GameUISet(false);
-        OptionUISet(false);
-
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                TitleUISet();
+                Debug.Log(0);
+                TitleUISet(true);
+                GameUISet(false);
+                OptionUISet(false);
                 break;
             case 1:
-                GameUISet();
+                Debug.Log(1);
+                TitleUISet(false);
+                GameUISet(true);
+                OptionUISet(false);
                 break;
         }
 
@@ -60,19 +62,6 @@ public class UIManager : MonoBehaviour, IListener
     }
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
-        //switch (Param)
-        //{
-        //    case 0:
-        //        TitleUISet();
-        //        GameUISet(false);
-        //        OptionUISet(false);
-        //        break;
-        //    case 1:
-        //        TitleUISet(false);
-        //        GameUISet();
-        //        OptionUISet(false);
-        //        break;
-        //}
     }  
     //==========================================================
 
@@ -127,33 +116,4 @@ public class UIManager : MonoBehaviour, IListener
         inGameUI.EnemyHpValue(MaxVal,CurVal);
     }
     #endregion
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        switch (SceneManager.GetActiveScene().buildIndex)
-        {
-            case 0:
-                TitleUISet();
-                GameUISet(false);
-                OptionUISet(false);
-                break;
-            case 1:
-                TitleUISet(false);
-                GameUISet();
-                OptionUISet(false);
-                break;
-        }
-    }
-
-    private void OnEnable()
-    {
-        // SceneManager.sceneLoaded 이벤트에 OnSceneLoaded 메서드를 구독.
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        // SceneManager.sceneLoaded 이벤트에서 OnSceneLoaded 메서드를 구독 해제.
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
 }

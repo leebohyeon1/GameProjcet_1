@@ -6,6 +6,8 @@ using UnityEngine;
 public class CamraController : MonoBehaviour, IListener
 {
     private CinemachineVirtualCamera cam;
+    //==========================================================
+
     [SerializeField]
     private float ShakeIntensity = 3f;
     [SerializeField]
@@ -18,10 +20,13 @@ public class CamraController : MonoBehaviour, IListener
     {
         cam = GetComponent<CinemachineVirtualCamera>();
     }
+
     private void Start()
     {
         StopShake();
         EventManager.Instance.AddListener(EVENT_TYPE.SHAKE_CAMERA, this);
+        if (cam.LookAt == null) { cam.LookAt = GameObject.FindObjectOfType<PlayerMovement>().transform; }
+        if (cam.Follow == null) { cam.Follow = GameObject.FindObjectOfType<PlayerMovement>().transform; }
     }
 
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
