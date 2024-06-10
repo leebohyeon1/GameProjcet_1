@@ -10,9 +10,12 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerInput;
     private Animator animator;
     //==========================================================
-    public LayerMask enemyLayer;
-    [SerializeField] private Transform lockOnTarget;
-    private float turnSmoothVelocity;
+
+    [Space(20f)]
+    public bool ikActive = false;
+    public Transform rightHandObj = null;
+    public Transform leftHandObj = null;
+     
 
     private float dodgeTimer;
     Vector3 dodgeDirection;
@@ -26,10 +29,9 @@ public class PlayerMovement : MonoBehaviour
     }
     //==========================================================
 
-    [Space(20f)]
-    public bool ikActive = false;
-    public Transform rightHandObj = null;
-    public Transform leftHandObj = null;
+    public LayerMask enemyLayer;
+    [SerializeField] private Transform lockOnTarget;
+    private float turnSmoothVelocity;
     //==========================================================
 
     void Start()
@@ -160,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("isMove", true);
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            Animate(Horizontal, Vertical);
+            MoveAnimate(Horizontal, Vertical);
 
             if (!playerStats.isLockOn)
             {
@@ -179,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Animate(float horizontal, float vertical)
+    void MoveAnimate(float horizontal, float vertical)
     {
         // Create a direction vector based on input
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;

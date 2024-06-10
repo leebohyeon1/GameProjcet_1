@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimEvent : MonoBehaviour
+public class PlayerAnim : MonoBehaviour
 {
     PlayerMovement playerMovement;
+    //==========================================================
 
     void Start()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
     }
+    //==========================================================
 
     void EndCheckAttack()
     {
@@ -20,5 +22,6 @@ public class PlayerAnimEvent : MonoBehaviour
     {
         playerMovement.CheckAttack();
     }
+
 
 }
