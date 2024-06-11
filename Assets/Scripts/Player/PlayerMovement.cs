@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private PlayerStats playerStats;
     private PlayerInput playerInput;
+    private PlayerCombat playerCombat;
     private Animator animator;
     //==========================================================
 
@@ -15,19 +16,11 @@ public class PlayerMovement : MonoBehaviour
     public bool ikActive = false;
     public Transform rightHandObj = null;
     public Transform leftHandObj = null;
-     
+    //==========================================================
 
     private float dodgeTimer;
     Vector3 dodgeDirection;
     int Step = 0;
-    //==========================================================
-
-    int hasgAttackCount = Animator.StringToHash("AttackCount");
-    public int AttackCount
-    {
-        get => animator.GetInteger(hasgAttackCount);
-        set => animator.SetInteger(hasgAttackCount, value);
-    }
     //==========================================================
 
     public LayerMask enemyLayer;
@@ -36,11 +29,12 @@ public class PlayerMovement : MonoBehaviour
     //==========================================================
 
     void Start()
-    {       
-        if(rb == null) { rb = GetComponent<Rigidbody>(); }
-        if(playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
-        if(playerInput == null) { playerInput = GetComponent<PlayerInput>(); }
-        if(animator == null) { animator = transform.GetChild(0).GetComponent<Animator>(); }
+    {
+        if (rb == null) { rb = GetComponent<Rigidbody>(); }
+        if (playerStats == null) { playerStats = GetComponent<PlayerStats>(); }
+        if (playerInput == null) { playerInput = GetComponent<PlayerInput>(); }
+        if (playerCombat == null) { playerCombat = GetComponent<PlayerCombat>(); }
+        if (animator == null) { animator = transform.GetChild(0).GetComponent<Animator>(); }
 
         //플레이어 회전 잠금
         rb.freezeRotation = true;
@@ -51,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (playerStats.playerState != PlayerState.Die) { UpdateMovement(); }
-       
+
     }
 
     void FixedUpdate()
@@ -99,15 +93,9 @@ public class PlayerMovement : MonoBehaviour
     {
 
         //구르기 시작
-        if (playerInput.DodgePressed && !playerStats.isDodging && !playerStats.isAttack) 
+        if (playerInput.DodgePressed && !playerStats.isDodging && !playerStats.isAttack)
         {
-            StartDodge(playerInput.Horizontal, playerInput.Vertical); 
-        }
-
-        //타격
-        if (playerInput.AttackPressed && !playerStats.isAttackScan)
-        {
-            Attack();
+            StartDodge(playerInput.Horizontal, playerInput.Vertical);
         }
 
         //락온/오프
@@ -121,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //락온 가능 범위 밖으로 벗어나면 락온 해제
-        if (playerStats.isLockOn && PlayerToLockOnTargetDistance() > playerStats.lockOnRange)
+        if (lockOnTarget != null&&playerStats.isLockOn && PlayerToLockOnTargetDistance() > playerStats.lockOnRange)
         {
             UnlockTarget();
         }
@@ -221,18 +209,14 @@ public class PlayerMovement : MonoBehaviour
 
     #region Dodge
     public void StartDodge(float Horizontal, float Vertical) //구르기 시작
-    {     
-        if (playerStats.curStamina > playerStats.dodgeStaminaCost )
+    {
+        if (playerStats.curStamina > playerStats.dodgeStaminaCost)
         {
 
-            if (playerStats.isAttack)
-            {
-                EndCheckAttack();
-            }
+            playerCombat.EndCheckAttack();
+ 
 
-            StartAct();
-            //isAttackReady = false;
-            EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT,this,true);
+            EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
             playerStats.isDodging = true;
             dodgeTimer = playerStats.dodgeDuration;
             playerStats.curStamina -= playerStats.dodgeStaminaCost;
@@ -240,9 +224,9 @@ public class PlayerMovement : MonoBehaviour
             dodgeDirection = new Vector3(Horizontal, 0f, Vertical).normalized;
 
             if (dodgeDirection.magnitude > 0f)
-            {             
-                float targetAngle = Mathf.Atan2(dodgeDirection.x, dodgeDirection.z) * Mathf.Rad2Deg;            
-                 rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            {
+                float targetAngle = Mathf.Atan2(dodgeDirection.x, dodgeDirection.z) * Mathf.Rad2Deg;
+                rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
                 dodgeDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 animator.SetTrigger("Roll");
                 Step = 0;
@@ -264,13 +248,12 @@ public class PlayerMovement : MonoBehaviour
         {
             EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
             playerStats.isDodging = false;
-            
+            playerStats.isAttack = false;
             rb.velocity = Vector3.zero;
-            EndAct();
             return;
         }
- 
-        if(Step == 1)
+
+        if (Step == 1)
         {
             rb.velocity = dodgeDirection * playerStats.dodgeSpeed / 2;
         }
@@ -306,8 +289,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (closestEnemy != null)
         {
-            LockOnToTarget(closestEnemy);       
-        }       
+            LockOnToTarget(closestEnemy);
+        }
     }
 
     public void LockOnToNextTarget()
@@ -315,7 +298,7 @@ public class PlayerMovement : MonoBehaviour
 
         Collider[] enemies = Physics.OverlapSphere(transform.position, playerStats.lockOnRange, enemyLayer);
         if (enemies.Length <= 1) return;
-        
+
         Transform nextTarget = null;
         float closestDistance = Mathf.Infinity;
 
@@ -331,7 +314,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 closestDistance = distanceToEnemy;
                 nextTarget = enemy.transform;
-            }          
+            }
         }
 
         if (nextTarget != null)
@@ -352,7 +335,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float PlayerToLockOnTargetDistance()
     {
-        return Vector3.Distance(transform.position, lockOnTarget.position);     
+        return Vector3.Distance(transform.position, lockOnTarget.position);
     }
 
     void LockOnToTarget(Transform target)
@@ -375,61 +358,4 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    #region Attack
-
-    public void Attack()
-    {
-        if (playerStats.curStamina > playerStats.attackStaminaCost)
-        {
-            rb.velocity = Vector3.zero;
-            AttackCount = 0;
-            animator.SetTrigger("Attack");
-        }
-    }
-    public void CheckAttack()
-    {
-        
-        playerStats.isAttack = true;
-        rb.velocity = Vector3.zero;
-        playerStats.curStamina -= playerStats.attackStaminaCost; 
-        EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK,this,true);
-        StartAct();
-    }
-    public void EndCheckAttack()
-    {
-        playerStats.isAttack = false;
-        EventManager.Instance.PostNotification(EVENT_TYPE.CHECK_ATTACK, this, false);
-        EndAct();
-    }
-    #endregion
-
-    public void TakeDamage(float damage)
-    {
-        if (playerStats.isDodging)
-        {
-            return;
-        }
-        playerStats.curHealth -= damage;
-
-        if (playerStats.curHealth <= 0)
-        {
-            //playerStats.curHealth = 0f;
-            playerStats.playerState = PlayerState.Die;
-            rb.velocity = Vector3.zero;
-            animator.SetTrigger("Death");
-            GetComponent<CapsuleCollider>().enabled = false;
-        }
-
-    }
-    //==========================================================
-
-    public void StartAct()
-    {
-        EndAct();
-        EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
-    }
-    public void EndAct()
-    {        
-        EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, false);
-    }
 }

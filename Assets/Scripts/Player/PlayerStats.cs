@@ -69,8 +69,8 @@ public class PlayerStats : MonoBehaviour, IListener
 
     [Header("현재 상태")]
     public PlayerState playerState;
+ 
     public bool isDodging;
-    public bool isAttackScan;
     public bool isAttack;
     public bool isBlocking;
     public bool isLockOn;
@@ -84,7 +84,7 @@ public class PlayerStats : MonoBehaviour, IListener
     //==========================================================
     private float staminaTimer;
     private float staminaTimer2;
-    private bool isAct;
+    private bool CanAct;
     private float hpTimer;
     //==========================================================
 
@@ -97,7 +97,6 @@ public class PlayerStats : MonoBehaviour, IListener
 
         isStaminaRecovery = true;
         isDodging = false;
-        isAttackScan = false;
         isAttack = false;
         isBlocking = false;
         isLockOn = false;
@@ -121,7 +120,7 @@ public class PlayerStats : MonoBehaviour, IListener
 
 
 
-        if (isAct)
+        if (CanAct)
         {
             staminaTimer2 += Time.deltaTime;
             if(staminaTimer2 > StaminaRecoveryBeginsAfterAction)
@@ -146,14 +145,14 @@ public class PlayerStats : MonoBehaviour, IListener
         switch (Event_Type)
         {
             case EVENT_TYPE.PLAYER_ACT:
-                isAct = !(bool)Param;
-                if(isAct)
+                CanAct = !(bool)Param;
+                if(CanAct)
                 {
-                    staminaTimer2 = 0;                                    
+                    staminaTimer2 = 0;
                 }
                 else
                 {
-                    isStaminaRecovery = false;
+                    isStaminaRecovery = false;                   
                 }
                 break;
         }
@@ -162,7 +161,7 @@ public class PlayerStats : MonoBehaviour, IListener
 
     public void EndAct()
     {
-        isAct = false;
+        CanAct = false;
         isStaminaRecovery = true;
     }
 

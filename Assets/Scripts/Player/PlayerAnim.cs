@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
-    PlayerMovement playerMovement;
+    PlayerCombat playerCombat;
     //==========================================================
 
     void Start()
     {
-        playerMovement = GetComponentInParent<PlayerMovement>();
+        playerCombat = GetComponentInParent<PlayerCombat>();
     }
     //==========================================================
 
     void EndCheckAttack()
     {
-        playerMovement.EndCheckAttack();
+        playerCombat.EndCheckAttack();
     }
 
     void CheckAttack()
     {
-        playerMovement.CheckAttack();
+        playerCombat.CheckAttack();
+    }
+
+    void SetTimer()
+    {
+        playerCombat.SetTimer();
     }
 }

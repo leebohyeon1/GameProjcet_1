@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2035575595198645427}
   - component: {fileID: 7796947446556363323}
   - component: {fileID: 7400889314822118759}
+  - component: {fileID: 7557351296975743382}
   - component: {fileID: 692728126218007509}
   - component: {fileID: 5635119836868449510}
   m_Layer: 3
@@ -113,7 +114,6 @@ MonoBehaviour:
   lockOnRange: 15
   playerState: 0
   isDodging: 0
-  isAttackScan: 0
   isAttack: 0
   isBlocking: 0
   isLockOn: 0
@@ -122,6 +122,28 @@ MonoBehaviour:
   leftHandIKTarget: {fileID: 0}
   weaponPrefab: {fileID: 2628411292681067504, guid: aacd68f5209b83248ad60dce3f5cf6cd,
     type: 3}
+--- !u!114 &7557351296975743382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2847784531940937980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d5fa71c6061c94f9b1e00ff3b86b97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackTimer: 0
+  attackTime:
+  - 0.65
+  - 0.65
+  - 0.65
+  waitingTime:
+  - 0.4
+  - 0.4
+  - 0.4
+  isAttackScan: 0
 --- !u!54 &692728126218007509
 Rigidbody:
   m_ObjectHideFlags: 0
