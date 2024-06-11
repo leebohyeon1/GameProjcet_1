@@ -2163,7 +2163,7 @@ MonoBehaviour:
   rotationSpeed: 0
   attackDistance: 0
   attackTime: 0
-  damage: 25
+  damage: 27
   enemyState: 0
   enemyPersonality: 0
   isAttack: 0
@@ -3606,6 +3606,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7400889314822118759, guid: 406c4f77b95600845ba04fa615b3b54f,
+        type: 3}
+      propertyPath: Damage
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7557351296975743382, guid: 406c4f77b95600845ba04fa615b3b54f,
         type: 3}
       propertyPath: attackTime
@@ -3615,6 +3620,21 @@ PrefabInstance:
         type: 3}
       propertyPath: waitingTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557351296975743382, guid: 406c4f77b95600845ba04fa615b3b54f,
+        type: 3}
+      propertyPath: attackTime.Array.data[0]
+      value: 0.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557351296975743382, guid: 406c4f77b95600845ba04fa615b3b54f,
+        type: 3}
+      propertyPath: attackTime.Array.data[1]
+      value: 0.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557351296975743382, guid: 406c4f77b95600845ba04fa615b3b54f,
+        type: 3}
+      propertyPath: attackTime.Array.data[2]
+      value: 0.62
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
