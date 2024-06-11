@@ -11,7 +11,7 @@ public class PlayerCombat : MonoBehaviour
     private PlayerMovement playerMovement;
     private Animator animator;
     //==========================================================   
-    private static readonly int hasgAttackCount = Animator.StringToHash("AttackCount");
+    int hasgAttackCount = Animator.StringToHash("AttackCount");
 
     public int AttackCount
     {
