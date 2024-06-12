@@ -25,7 +25,8 @@ public class EnemyMovement : MonoBehaviour,IListener
         set => animator.SetInteger(hasgAttackCount, value);
     }
 
-    public Transform attackPos;
+    public Transform wideAttackPos;
+    public Transform longAttackPos;
     public TrailRenderer trail;
     //==========================================================
 
@@ -193,7 +194,7 @@ public class EnemyMovement : MonoBehaviour,IListener
         while (enemyStats.enemyState != EnemyState.Die)
         {
             // Wait for a random interval between 2 and 5 seconds
-            float waitTime = Random.Range(0.5f, 2f);        
+            float waitTime = Random.Range(0.5f, 1.7f);        
             yield return new WaitForSeconds(waitTime);
             AttackCount = Random.Range(0, 3);
             // Select and execute a random pattern
@@ -207,20 +208,33 @@ public class EnemyMovement : MonoBehaviour,IListener
 
     public void Attack()
     {
-        attackPos.GetComponent<BoxCollider>().enabled = true;
+        wideAttackPos.GetComponent<BoxCollider>().enabled = true;
         enemyStats.isAttack = true;
         trail.enabled = true;
     }
 
     public void EndAttack()
     {
-        attackPos.GetComponent<BoxCollider>().enabled = false;
+        wideAttackPos.GetComponent<BoxCollider>().enabled = false;
         trail.enabled = false;
         enemyStats.isAttack = false;
     }
-//==========================================================
 
-void LookAtPlayer()
+    public void LongAttack()
+    {
+        longAttackPos.GetComponent<BoxCollider>().enabled = true;
+        enemyStats.isAttack = true;
+        trail.enabled = true;
+    }
+    public void EndLongAttack()
+    {
+        longAttackPos.GetComponent<BoxCollider>().enabled = false;
+        trail.enabled = false;
+        enemyStats.isAttack = false;
+    }
+    //==========================================================
+
+    void LookAtPlayer()
     {
         Vector3 directionToTarget = (player.position - transform.position).normalized;
         float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;

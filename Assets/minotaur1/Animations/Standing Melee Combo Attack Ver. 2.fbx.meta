@@ -90,7 +90,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.594132
-        functionName: StartAttack
+        functionName: LongAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}
@@ -98,7 +98,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.64792174
-        functionName: EndAttack
+        functionName: EndLongAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}

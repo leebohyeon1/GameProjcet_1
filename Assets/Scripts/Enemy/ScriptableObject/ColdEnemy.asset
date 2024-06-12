@@ -15,7 +15,7 @@ MonoBehaviour:
   Speed: 10
   boundarySpeed: 2.5
   rotationSpeed: 10
-  attackDistance: 9
+  attackDistance: 12
   attackTime: 2
   enemyState: 1
   enemyPersonality: 2
