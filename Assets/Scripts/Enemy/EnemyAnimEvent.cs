@@ -20,4 +20,14 @@ public class EnemyAnimEvent : MonoBehaviour
     {
         EnemyMovement.EndAttack();
     }
+
+    void LongAttack()
+    {
+        EnemyMovement.LongAttack();
+    }
+
+    void EndLongAttack()
+    {
+        EnemyMovement.EndLongAttack();
+    }
 }

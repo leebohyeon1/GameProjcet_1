@@ -42,7 +42,7 @@ public class EnemyStats : MonoBehaviour
     [Header("공격")]
     public float attackDistance;
     public float attackTime;
-    public float damage = 10;
+    public float[] damage;
 
     [Header("현재 상태")]
     public EnemyState enemyState;
