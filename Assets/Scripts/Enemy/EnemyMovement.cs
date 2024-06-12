@@ -18,6 +18,13 @@ public class EnemyMovement : MonoBehaviour,IListener
     private bool isOrbitClockwise;
     private float turnSmoothVelocity;
 
+    int hasgAttackCount = Animator.StringToHash("AttackCount");
+    public int AttackCount
+    {
+        get => animator.GetInteger(hasgAttackCount);
+        set => animator.SetInteger(hasgAttackCount, value);
+    }
+
     public Transform attackPos;
     public TrailRenderer trail;
     //==========================================================
@@ -77,7 +84,7 @@ public class EnemyMovement : MonoBehaviour,IListener
         switch(Param)
         {
             case EnemyState.Combat:
-                animator.SetBool("isMove", false);
+                //animator.SetBool("isMove", false);
                 StartCoroutine("AttackRoof");
                 break;
             case EnemyState.Chase:
@@ -188,9 +195,9 @@ public class EnemyMovement : MonoBehaviour,IListener
             // Wait for a random interval between 2 and 5 seconds
             float waitTime = Random.Range(0.5f, 2f);        
             yield return new WaitForSeconds(waitTime);
-            int Attackindex = Random.Range(0, 3);
+            AttackCount = Random.Range(0, 3);
             // Select and execute a random pattern
-            animator.SetInteger("AttackCount", Attackindex);
+            //animator.SetInteger("AttackCount", Attackindex);
             animator.SetTrigger("Attack");
           
            
