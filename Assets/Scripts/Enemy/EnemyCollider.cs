@@ -5,17 +5,17 @@ using UnityEngine;
 public class EnemyCollider : MonoBehaviour
 {
     EnemyStats EnemyStats;
-    EnemyMovement EnemyMovement;
+    EnemyCombat EnemyCombat;
     private void Start()
     {
         EnemyStats = GetComponentInParent<EnemyStats>();
-        EnemyMovement = GetComponentInParent<EnemyMovement>();
+        EnemyCombat = GetComponentInParent<EnemyCombat>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerCombat>().TakeDamage(EnemyStats.damage[EnemyMovement.AttackCount]);
+            other.GetComponent<PlayerCombat>().TakeDamage(EnemyStats.damage[EnemyCombat.AttackCount]);
             GetComponent<BoxCollider>().enabled = false;
         }
     }

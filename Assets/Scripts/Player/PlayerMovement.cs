@@ -20,11 +20,11 @@ public class PlayerMovement : MonoBehaviour
 
     private float dodgeTimer;
     Vector3 dodgeDirection;
-    int Step = 0;
     //==========================================================
 
-    public LayerMask enemyLayer;
-    [SerializeField] private Transform lockOnTarget;
+    //public LayerMask enemyLayer;
+    [SerializeField] private GameObject Enemy;
+   private Transform lockOnTarget;
     private float turnSmoothVelocity;
     //==========================================================
 
@@ -39,7 +39,9 @@ public class PlayerMovement : MonoBehaviour
         //플레이어 회전 잠금
         rb.freezeRotation = true;
         //attackIndex = 0;
-        enemyLayer = LayerMask.GetMask("Enemy");
+        //enemyLayer = LayerMask.GetMask("Enemy");
+
+        Enemy = GameObject.FindGameObjectWithTag("Enemy");
     }
 
     void Update()
@@ -101,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         //락온/오프
         if (playerInput.LockOnPressed && !playerStats.isLockOn && !playerStats.isDodging)
         {
-            LockOnToClosestTarget();
+            LockOnToTarget();
         }
         else if (playerInput.LockOnPressed && playerStats.isLockOn)
         {
@@ -109,10 +111,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //락온 가능 범위 밖으로 벗어나면 락온 해제
-        if (lockOnTarget != null&&playerStats.isLockOn && PlayerToLockOnTargetDistance() > playerStats.lockOnRange)
-        {
-            UnlockTarget();
-        }
+        //if (lockOnTarget != null&&playerStats.isLockOn && PlayerToLockOnTargetDistance() > playerStats.lockOnRange)
+        //{
+        //    UnlockTarget();
+        //}
 
         //마우스 휠로 락온 타겟 변경
         //if (playerStats.isLockOn && playerInput.scroll != 0)
@@ -214,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         {
 
             playerCombat.EndCheckAttack();
- 
+            animator.SetTrigger("Roll");
 
             EventManager.Instance.PostNotification(EVENT_TYPE.PLAYER_ACT, this, true);
             playerStats.isDodging = true;
@@ -227,15 +229,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 float targetAngle = Mathf.Atan2(dodgeDirection.x, dodgeDirection.z) * Mathf.Rad2Deg;
                 rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-                dodgeDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                animator.SetTrigger("Roll");
-                Step = 0;
+                dodgeDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;               
             }
             else
             {
-                animator.SetTrigger("BackStep");
-                dodgeDirection = -transform.forward;
-                Step = 1;
+                dodgeDirection = transform.forward;
             }
         }
 
@@ -253,73 +251,19 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (Step == 1)
-        {
-            rb.velocity = dodgeDirection * playerStats.dodgeSpeed / 2;
-        }
-        else
-        {
-            rb.velocity = dodgeDirection * playerStats.dodgeSpeed;
-        }
+        rb.velocity = dodgeDirection * playerStats.dodgeSpeed;
 
     }
     #endregion
 
     #region LockOn
-    public void LockOnToClosestTarget() //플레이어 정면에서 좌우로 45각도 안에 playerStats.lockOnRange안에 적이 있으면 제일 가까운
+    public void LockOnToTarget()
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, playerStats.lockOnRange, enemyLayer);
-        if (enemies.Length == 0) return;
-
-        Transform closestEnemy = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach (Collider enemy in enemies)
+        if (Enemy != null)
         {
-            Vector3 directionToEnemy = enemy.transform.position - transform.position;
-            float distanceToEnemy = directionToEnemy.magnitude;
-            //float angleToEnemy = Vector3.Angle(transform.forward, directionToEnemy);
-
-            if (/*angleToEnemy < playerStats.measuringAngle &&*/ distanceToEnemy < closestDistance)
-            {
-                closestDistance = distanceToEnemy;
-                closestEnemy = enemy.transform;
-            }
-        }
-
-        if (closestEnemy != null)
-        {
-            LockOnToTarget(closestEnemy);
-        }
-    }
-
-    public void LockOnToNextTarget()
-    {
-
-        Collider[] enemies = Physics.OverlapSphere(transform.position, playerStats.lockOnRange, enemyLayer);
-        if (enemies.Length <= 1) return;
-
-        Transform nextTarget = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach (Collider enemy in enemies)
-        {
-            if (enemy.transform == lockOnTarget) continue;
-
-            Vector3 directionToEnemy = enemy.transform.position - transform.position;
-            float distanceToEnemy = directionToEnemy.magnitude;
-            //float angleToEnemy = Vector3.Angle(transform.forward, directionToEnemy);
-
-            if (/*angleToEnemy < playerStats.measuringAngle &&*/ distanceToEnemy < closestDistance)
-            {
-                closestDistance = distanceToEnemy;
-                nextTarget = enemy.transform;
-            }
-        }
-
-        if (nextTarget != null)
-        {
-            LockOnToTarget(nextTarget);
+            lockOnTarget = Enemy.GetComponentInParent<EnemyStats>().Point;
+            UIManager.Instance.ShowLockOnUI(Enemy.transform);
+            playerStats.isLockOn = true;
         }
     }
 
@@ -327,28 +271,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (lockOnTarget != null)
         {
-            Vector3 directionToTarget = (lockOnTarget.position - transform.position).normalized;
+            Vector3 directionToTarget = (Enemy.transform.position - transform.position).normalized;
             float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
             rb.rotation = Quaternion.Euler(0f, targetAngle, 0f);
         }
     }
 
-    public float PlayerToLockOnTargetDistance()
-    {
-        return Vector3.Distance(transform.position, lockOnTarget.position);
-    }
-
-    void LockOnToTarget(Transform target)
-    {
-        lockOnTarget = target.GetComponentInParent<EnemyStats>().Point;
-        UIManager.Instance.ShowLockOnUI(target);
-        playerStats.isLockOn = true;
-    }
-
     public void UnlockTarget()
     {
         UIManager.Instance.HideLockOnUI();
-        lockOnTarget = null;
         playerStats.isLockOn = !playerStats.isLockOn;
     }
 

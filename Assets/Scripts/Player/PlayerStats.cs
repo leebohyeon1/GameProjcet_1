@@ -131,15 +131,6 @@ public class PlayerStats : MonoBehaviour, IListener
         
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, lockOnRange);
-
-        Gizmos.color = Color.red;
-
-    }
-
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
         switch (Event_Type)

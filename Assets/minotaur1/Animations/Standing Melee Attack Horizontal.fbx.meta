@@ -48,7 +48,7 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
@@ -58,15 +58,31 @@ ModelImporter:
       curves: []
       events:
       - time: 0.33251834
-        functionName: StartAttack
+        functionName: StartAttackCheck
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.43031785
+      - time: 0.4274354
+        functionName: EndAttackCheck
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.63111305
         functionName: EndAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.2627551
+        functionName: StartAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}

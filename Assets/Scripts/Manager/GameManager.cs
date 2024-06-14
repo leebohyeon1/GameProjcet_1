@@ -10,7 +10,7 @@ public enum PlayerState
 
 public enum EnemyState
 { 
-    Combat, Chase, Die
+    Idle, LD_COMBAT ,CD_Combat, Chase, Die
 }
 
 public class GameManager : MonoBehaviour

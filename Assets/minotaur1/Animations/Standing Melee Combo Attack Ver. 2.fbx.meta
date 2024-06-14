@@ -57,8 +57,16 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.19559902
+      - time: 0.119284295
         functionName: StartAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.19559902
+        functionName: StartAttackCheck
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}
@@ -66,7 +74,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.2738386
-        functionName: EndAttack
+        functionName: EndAttackCheck
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}
@@ -74,7 +82,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.34963325
-        functionName: StartAttack
+        functionName: StartAttackCheck
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}
@@ -82,6 +90,14 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.4205379
+        functionName: EndAttackCheck
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.45262098
         functionName: EndAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
@@ -89,8 +105,16 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.5646123
+        functionName: StartAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.594132
-        functionName: LongAttack
+        functionName: LongAttackCheck
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}
@@ -98,7 +122,15 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.64792174
-        functionName: EndLongAttack
+        functionName: EndLongAttackCheck
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.94768125
+        functionName: EndAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d0bdbe4bda2ff15498a07386ae75466f,
           type: 3}
