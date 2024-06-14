@@ -4,30 +4,51 @@ using UnityEngine;
 
 public class EnemyAnimEvent : MonoBehaviour
 {
-    EnemyMovement EnemyMovement;
+    //EnemyMovement EnemyMovement;
+    EnemyCombat EnemyCombat;
 
     private void Start()
     {
-        EnemyMovement = GetComponentInParent<EnemyMovement>();
+        EnemyCombat = GetComponentInParent<EnemyCombat>();
     }
 
     void StartAttack()
     {
-        EnemyMovement.Attack();
+        EnemyCombat.Attack();
+    }
+
+    void StartAttackCheck()
+    {
+        EnemyCombat.AttackCheck();
+    }
+
+    void EndAttackCheck()
+    {
+        EnemyCombat.EndAttackCheck();
+    }
+
+    void LongAttackCheck()
+    {
+        EnemyCombat.LongAttackCheck();
+    }
+
+    void EndLongAttackCheck()
+    {
+        EnemyCombat.EndLongAttackCheck();
     }
 
     void EndAttack()
     {
-        EnemyMovement.EndAttack();
+        EnemyCombat.EndAttack();
     }
 
-    void LongAttack()
+    void StartJumpAttack()
     {
-        EnemyMovement.LongAttack();
+        EnemyCombat.StartJumpAttack();
     }
 
-    void EndLongAttack()
+    void EndJumpAttack()
     {
-        EnemyMovement.EndLongAttack();
+        EnemyCombat.EndJumpAttack();
     }
 }
