@@ -59,12 +59,5 @@ public class EnemyStats : MonoBehaviour
     //==========================================================
 
 
-    public void TakeDamage(float damage)
-    {
-        if(curHP > 0)
-        {
-            curHP -= damage;
-        }
-        
-    }
+  
 }

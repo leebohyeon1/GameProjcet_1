@@ -20,7 +20,7 @@ public class WeaponCollider : MonoBehaviour ,IListener
         if (other.CompareTag("Enemy"))
         {
             EventManager.Instance.PostNotification(EVENT_TYPE.SHAKE_CAMERA, this);
-            other.GetComponentInParent<EnemyStats>().TakeDamage(playerstats.Damage);
+            other.GetComponentInParent<EnemyCombat>().TakeDamage(playerstats.Damage);
             GetComponent<BoxCollider>().enabled = false;
         }
 

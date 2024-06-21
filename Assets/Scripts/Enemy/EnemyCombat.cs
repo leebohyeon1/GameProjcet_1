@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -164,6 +163,19 @@ public class EnemyCombat : MonoBehaviour
     }
     #endregion
 
-
+    public void TakeDamage(float damage)
+    {
+        if (enemyStats.curHP > 0)
+        {
+            enemyStats.curHP -= damage;
+            if (enemyStats.curHP <= 0)
+            {
+                enemyStats.curHP = 0;
+                enemyStats.enemyState = EnemyState.Die;
+                FindObjectOfType<PlayerMovement>().UnlockTarget();
+                animator.SetTrigger("Die");
+            }
+        }
+    }
 }
 
